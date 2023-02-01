@@ -27,12 +27,13 @@ Furthermore, the project will without a doubt allow me to get more insights and 
 
 ### User Stories
 * **Phase 0**
-  1. As a user, I want to be able to add a logic gate to a circuit.
+  1. As a user, I want to be able to add as many logic gates as I want to a circuit.
   2. As a user, I want to be able to create a new circuit.
   3. As a user, I want to have some example circuits.
   4. As a user, I want to be able to add a wire to connect components on the circuit.
-  5. As a user, I want to be able to view the logical state of a component/wire on the circuit.
-  6. As a user, I want to be able to view a list of all components on a circuit.
+  5. As a user, I want to be able to view a list of all components on a circuit.
+* **Future Ideas**
+  1. As a user, I want to be able to view the logical state of a component/wire on the circuit.
 
 ---
 
