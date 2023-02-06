@@ -4,17 +4,20 @@ import model.LogicComponent;
 import model.LogicInput;
 import model.LogicNot;
 
+import java.nio.channels.GatheringByteChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Main {
 
+    static ArrayList<Character> GATE_SYMBOL = new ArrayList<Character>(List.of('V', '^'));
     static ArrayList<Character> RawInputs;
 //    static ArrayList<LogicComponent> Inputs;
     static HashMap<String, LogicComponent> gateMap = new HashMap<>();
 
     public static void main(String[] args) {
-        String expr = "(" + "(~ ( A V ~ B )) ^~C".replace(" ","").concat(")");
+        String expr = "(" + "(~(AV~B))^~C".replace(" ","").concat(")");
         System.out.println("Expression: " + expr);
         RawInputs = findInputs(expr);
         System.out.println("Input alphabets: " + RawInputs);
@@ -27,6 +30,89 @@ public class Main {
 //        System.out.println("miniExpressions: " + tempMiniExpression);
         ArrayList<String> gateTitleList = extractAllExpressions(expr);
         System.out.println("expression list: " + gateTitleList);
+        System.out.println("AV~B :" + findOperator("AV~B"));
+
+    }
+
+//    public static ArrayList<LogicComponent> makeGates(ArrayList<LogicComponent> inputGates,
+//                                                      ArrayList<String> gateTitleList) {
+//        while (gateTitleList.size() != 0) {
+//            for (String miniExpression: gateTitleList) {
+//                // check if a gate's inputs are already in inputgates
+//                // if yes then make the appropriate gate and add it to the final array
+//                // and remove it from the title list
+//                // else check the next item.
+//                if (miniExpression.startsWith("~")) {
+//                    // treat as not expression
+//                } else {
+//                    // treat as binary operator
+//                    ArrayList<String> splitExpression = findOperator(miniExpression);
+//                }
+//            }
+//        }
+//        return ...;
+//    }
+
+    @SuppressWarnings("methodlength")
+    // only works if the expression starts with bracket
+    public static ArrayList<String> findOperator(String miniExpression) {
+        ArrayList<String> splitExpression = new ArrayList<>();
+        String tempString = "";
+        if (miniExpression.charAt(0) == '(') {
+            // separate mini expression based on brackets stack
+            ArrayList<Boolean> stack = new ArrayList<>();
+            // true for open bracket
+    //        boolean foundOperator = false;
+            for (int i = 0; i < miniExpression.length(); i++) {
+                Character chr = miniExpression.charAt(i);
+
+                if (chr.toString().equals("(")) {
+                    // open bracket found
+                    // if first open bracket then don't add to string
+                    // else add to the string
+                    if (stack.size() != 0) {
+                        tempString += chr.toString();
+                    }
+                    stack.add(true);
+                } else if (chr.toString().equals(")")) {
+                    // close bracket found
+                    // if last close bracket then don't add to string
+                    // else add to the string
+                    stack.remove(stack.size() - 1);
+                    if (stack.size() > 0) {
+                        // not last bracket
+                        tempString += chr.toString();
+                    } else {
+                        // last bracket
+                        splitExpression.add(tempString);
+                        tempString = "";
+                        // add operator and rest of expression
+                        splitExpression.add(miniExpression.substring(i + 1,i + 2));
+                        splitExpression.add(miniExpression.substring(i + 2, miniExpression.length()));
+                        break;
+                    }
+                } else {
+                    tempString += chr.toString();
+                }
+            }
+        } else {
+            // starts without bracket
+            for (int i = 0; i < miniExpression.length(); i++) {
+                Character chr = miniExpression.charAt(i);
+                if (GATE_SYMBOL.contains(chr)) {
+                    splitExpression.add(tempString);
+                    tempString = "";
+                    splitExpression.add(chr.toString());
+                    splitExpression.add(miniExpression.substring(i + 1,miniExpression.length()));
+                    // may contain outer brackets in the second operand, which may or may not be an issue
+                    break;
+                } else {
+                    tempString += chr.toString();
+                }
+            }
+        }
+
+        return splitExpression;
     }
 
     public static ArrayList<Character> findInputs(String exp) {
