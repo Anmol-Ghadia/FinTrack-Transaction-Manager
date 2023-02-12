@@ -37,4 +37,24 @@ public class TransactionTest {
         assertEquals("Uber",t1.getTitle());
         assertEquals("Uber to downtown",t1.getDesc());
     }
+
+    @Test
+    public void transactionTestSetters() {
+        t1.setFrom(travel);
+        assertEquals(travel,t1.getFrom());
+        t1.setTo(checking);
+        assertEquals(checking,t1.getTo());
+        t1.setAmount(120);
+        assertEquals(120,t1.getAmount());
+        LocalDate date2 = LocalDate.parse("2022-01-15");
+        t1.setDate(date2);
+        assertEquals(date2,t1.getDate());
+        assertEquals(15,t1.getDay());
+        assertEquals(1,t1.getMonth());
+        assertEquals(2022,t1.getYear());
+        t1.setTitle("Uber refund");
+        assertEquals("Uber refund",t1.getTitle());
+        t1.setDesc("Uber returned money for unsatisfactory ride");
+        assertEquals("Uber returned money for unsatisfactory ride",t1.getDesc());
+    }
 }

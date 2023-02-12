@@ -4,14 +4,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 /*
-* A basic abstract Account model for more specific accounts like:
-*    - Expense
-*    - Loan
-*    - Accumulator
-*    - Income
+* A general Account model for more specific accounts.
 */
 
 public abstract class Account {
+    // Transactions are added from the front(index 0)
     protected ArrayList<Transaction> transactions;
     protected String accountType;
     protected String accountName;
@@ -22,48 +19,52 @@ public abstract class Account {
     }
 
     public Transaction getTransaction(int index) {
-        // STUB
-        return new Transaction(0,
-                new Loan("",""),
-                new Loan("",""),
-                0, LocalDate.now(),"","");
+        return transactions.get(index);
     }
 
-    public Transaction getTransactionByID() {
-        // STUB
-        return new Transaction(0,
-                new Loan("",""),
-                new Loan("",""),
-                0, LocalDate.now(),"","");
+    public Transaction getTransactionByID(int id) {
+        for (Transaction t: transactions) {
+            if (t.getTransactionID() == id) {
+                return t;
+            }
+        }
+        // should raise exception if not found
+        return null;
     }
 
     public Transaction getLastTransaction() {
-        // STUB
-        return new Transaction(0,
-                new Loan("",""),
-                new Loan("",""),
-                0, LocalDate.now(),"","");
+        // can return error if nothing exists in the array
+        return transactions.get(0);
     }
 
     public int getBalance() {
-        // STUB
-        return -1;
+        return getDebit() - getCredit();
     }
 
     public int getDebit() {
-        // STUB
-        return -1;
+        int total = 0;
+        for (Transaction t: transactions) {
+            if (t.getTo().equals(this)) {
+                total += t.getAmount();
+            }
+        }
+        return total;
     }
 
     public int getCredit() {
-        // STUB
-        return -1;
+        int total = 0;
+        for (Transaction t: transactions) {
+            if (t.getFrom().equals(this)) {
+                total += t.getAmount();
+            }
+        }
+        return total;
     }
 
     // MODIFIES: this
     // EFFECTS: Adds a new transaction to the account
     public void addTransaction(Transaction transaction) {
-
+        transactions.add(0, transaction);
     }
 
     public String getAccountType() {
