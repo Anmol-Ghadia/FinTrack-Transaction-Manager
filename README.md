@@ -1,41 +1,25 @@
-# _GateSim_
-> Design, simulate and visualize logical circuits.
+# FinTrack
+> Track your expenses and plan your budget
 
 ### About
+FinTrack is a personal finance tracing software application that allows users to manage their personal finances.
+It provides a simple and intuitive interface for users to record their expenses and income, and to keep track of their budget.
+The application also offers features such as categorizing expenses, creating a budget plan, and generating reports on spending habits.
+The goal of the project is to help users take control of their finances and make informed decisions about their spending.
 
-_GateSim_ is a software application that allows users to create and simulate digital circuits. 
-It has a graphical user interface for designing and observing circuits. 
-It includes basic logic gates like **AND**, **OR**, **NOT**, **NAND**, in addition to more advanced gates. 
-The project's distinguishing feature is that it is focused on visualizing the circuits. 
-The project's goal is to give users a hands-on understanding of how digital circuits work, 
-and it can be used for both educational purposes and small-scale prototyping of digital circuits.
-
-### Intended Audience:
-Although anyone is free to use the application as they see fit, the project's goal is to provide **students** with an 
-excellent and robust learning tool that can help them:
-* learn to design circuits
-* understand behaviour of various components
-* learn the interaction and purpose of each component
+### Intended Audience
+The intended audience for this application is anyone who wants to improve their financial situation and have a better understanding of their spending habits. The project aims to provide an easy-to-use tool for people who are just starting to manage their finances, as well as those who want to keep track of their expenses in a more organized and efficient manner.
 
 ### Motivation for the project
-I've always enjoyed playing with logic circuit simulators, but most of them fail to take
-advantage of the visual aspect. With this project, I aim to accomplish much more in that area.
-And, in the process, provide a resource for other students to better grasp the concepts.
-Furthermore, the project will without a doubt allow me to get more insights and help deepen my understanding.
-
----
+The motivation for this project comes from the personal experience of managing finances and struggling to keep track of expenses. I aim to provide a tool that makes it easy for people to manage their finances, so they can focus on saving and investing their money, instead of worrying about how to keep track of it.
 
 ### User Stories
-* **Phase 0**
-  1. As a user, I want to be able to add as many logic gates as I want to a circuit.
-  2. As a user, I want to be able to create a new circuit.
-  3. As a user, I want to have some example circuits.
-  4. As a user, I want to be able to add a wire to connect components on the circuit.
-  5. As a user, I want to be able to view a list of all components on a circuit.
-* **Future Ideas**
-  1. As a user, I want to be able to view the logical state of a component/wire on the circuit.
 
----
+* As a user, I want to be able to add a transaction to my accounts so that I can keep track of my spending and income.
+* As a user, I want to be able to view a list of all my transactions in a specific account so that I can see my spending and income history.
+* As a user, I want to be able to categorize a transaction so that I can track my spending by category.
+* As a user, I want to be able to edit a transaction so that I can correct any mistakes.
+* As a user, I want to be able to view a summary of my spending and income by category so that I can see where my money is going.
 
 ### Links:
-* [GitHub-Source](https://github.students.cs.ubc.ca/CPSC210-2022W-T2/project_y6y5s)
+[GitHub-Source](https://github.students.cs.ubc.ca/CPSC210-2022W-T2/project_y6y5s)
