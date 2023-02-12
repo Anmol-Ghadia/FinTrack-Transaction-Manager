@@ -1,3 +1,13 @@
 package ui;
 
-public class Main {}
+import model.*;
+
+import java.time.LocalDate;
+
+public class Main {
+    public static void main(String []args) {
+        Account a1 = new Loan("Person 1","This person is trustworthy");
+        Transaction t1 = new Transaction(0, "", "", 0, LocalDate.now(),"");
+        a1.addTransaction(t1);
+    }
+}

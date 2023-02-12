@@ -3,6 +3,14 @@ package model;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
+/*
+* A basic abstract Account model for more specific accounts like:
+*    - Expense
+*    - Loan
+*    - Accumulator
+*    - Income
+*/
+
 public abstract class Account {
     protected ArrayList<Transaction> transactions;
     protected String accountType;
@@ -46,6 +54,8 @@ public abstract class Account {
         return -1;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Adds a new transaction to the account
     public void addTransaction(Transaction transaction) {
 
     }
