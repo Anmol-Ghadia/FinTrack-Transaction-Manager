@@ -7,8 +7,8 @@ import java.time.LocalDate;
 */
 public class Transaction {
     private final int transactionID;
-    private String from;
-    private String to;
+    private Account from;
+    private Account to;
     private int amount;
     private LocalDate date;
     private String title;
@@ -17,15 +17,16 @@ public class Transaction {
     // REQUIRES: to, from are valid accounts
     //           amount > 0, title is not empty
     public Transaction(int transactionID,
-                       String from, String to,
+                       Account from, Account to,
                        int amount,
                        LocalDate date,
-                       String desc) {
+                       String title, String desc) {
         this.transactionID = transactionID;
         this.amount = amount;
         this.from = from;
         this.to = to;
         this.date = date;
+        this.title = title;
         this.desc = desc;
     }
 
@@ -33,11 +34,11 @@ public class Transaction {
         return transactionID;
     }
 
-    public String getFrom() {
+    public Account getFrom() {
         return from;
     }
 
-    public String getTo() {
+    public Account getTo() {
         return to;
     }
 
@@ -50,18 +51,15 @@ public class Transaction {
     }
 
     public int getDay() {
-        // STUB
-        return -1;
+        return this.date.getDayOfMonth();
     }
 
     public int getMonth() {
-        // STUB
-        return -1;
+        return this.date.getMonthValue();
     }
 
     public int getYear() {
-        // STUB
-        return -1;
+        return this.date.getYear();
     }
 
     public String getTitle() {
@@ -72,17 +70,15 @@ public class Transaction {
         return desc;
     }
 
-    // REQUIRES: from should be a valid account
     // MODIFIES: this
     // EFFECTS: changes the from<account> of this transaction
-    public void setFrom(String from) {
+    public void setFrom(Account from) {
         this.from = from;
     }
 
-    // REQUIRES: to should be a valid account
     // MODIFIES: this
     // EFFECTS: changes the to<account> of this transaction
-    public void setTo(String to) {
+    public void setTo(Account to) {
         this.to = to;
     }
 

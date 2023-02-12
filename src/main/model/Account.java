@@ -24,19 +24,25 @@ public abstract class Account {
     public Transaction getTransaction(int index) {
         // STUB
         return new Transaction(0,
-                "", "", 0, LocalDate.now(),"");
+                new Loan("",""),
+                new Loan("",""),
+                0, LocalDate.now(),"","");
     }
 
     public Transaction getTransactionByID() {
         // STUB
         return new Transaction(0,
-                "", "", 0, LocalDate.now(),"");
+                new Loan("",""),
+                new Loan("",""),
+                0, LocalDate.now(),"","");
     }
 
     public Transaction getLastTransaction() {
         // STUB
         return new Transaction(0,
-                "", "", 0, LocalDate.now(),"");
+                new Loan("",""),
+                new Loan("",""),
+                0, LocalDate.now(),"","");
     }
 
     public int getBalance() {
