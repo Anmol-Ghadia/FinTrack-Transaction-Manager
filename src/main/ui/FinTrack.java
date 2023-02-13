@@ -1,13 +1,12 @@
 package ui;
 
-import Exceptions.AccountNotFoundException;
+import exceptions.AccountNotFoundException;
 import com.github.freva.asciitable.AsciiTable;
 import model.Account;
 import model.Accumulator;
 import model.Expense;
 import model.Transaction;
 
-import java.sql.Array;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -20,15 +19,16 @@ public class FinTrack {
     private ArrayList<Account> loan;
     private ArrayList<Transaction> transactionList;
     private Scanner input;
-    private boolean appRunning = true;
-    private int transactionCount = 0;
+    private boolean appRunning;
+    private int transactionCount;
     String command;
-    private final String menu0 = "Main menu\n 1) Transaction\n 2) Account\n 3) Summary\n 4) quit";
-    private final String menu1 = "Transaction\n 1) Add new\n 2) Modify\n 3) Delete\n 4) [Back] Main Menu";
-    private final String menu3 = "Summary\n 1) Individual Account\n 2) All Account\n 3) [Back] Main Menu";
+    private final String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n| 4) quit";
+    private final String menu1 = "||Transaction\n|| 1) Add new\n|| 2) Modify\n|| 3) Delete\n|| 4) [Back] Main Menu";
+
+    private final String menu2 = "||Account\n|| 1) Add new\n|| 2) Modify\n|| 3) Delete\n|| 4) [Back] Main Menu";
+    private final String menu3 = "||Summary\n|| 1) Individual Account\n|| 2) All Account\n|| 3) [Back] Main Menu";
 
     public FinTrack() {
-        command = null;
         runConsoleApp();
     }
 
@@ -45,35 +45,66 @@ public class FinTrack {
     @SuppressWarnings("methodlength")
     private void handleMenu0() {
         switch (command) {
-            case "1":
-                // transaction operation
+            case "1": // transaction operation
                 System.out.println("selected transaction");
                 pause();
                 handleMenu1();
                 break;
-            case "2":
-                // account operation
+            case "2": // account operation
                 System.out.println("selected account");
                 pause();
-//                handleMenu2();
+                handleMenu2();
                 break;
-            case "3":
-                // Account summary
+            case "3": // Account summary
                 System.out.println("selected Summary");
                 pause();
                 handleMenu3();
                 break;
-            case "4":
-                // end of app
+            case "4": // end of app
                 appRunning = false;
                 System.out.println("End of app");
                 pause();
                 break;
-            default:
-                // incorrect input
+            default: // incorrect input
                 System.out.println("invalid input");
                 pause();
                 break;
+        }
+    }
+
+    @SuppressWarnings("methodlength")
+    private void handleMenu2() {
+        boolean loop = true;
+        while (loop) {
+            System.out.println(menu2);
+            command = input.next().toLowerCase();
+            switch (command) {
+                case "1":
+                    System.out.println("selected new Account");
+                    pause();
+//                    newAccount();
+                    break;
+                case "2":
+                    System.out.println("selected modify account");
+                    pause();
+//                    modifyAccount();
+                    break;
+                case "3":
+                    System.out.println("selected delete Account");
+                    pause();
+//                    deleteAccount();
+                    break;
+                case "4":
+                    System.out.println("Going back to Main menu");
+                    pause();
+                    loop = false;
+                    break;
+                default:
+                    // incorrect input
+                    System.out.println("invalid input");
+                    pause();
+                    break;
+            }
         }
     }
 
@@ -366,6 +397,10 @@ public class FinTrack {
     }
 
     public void init() {
+        transactionCount = 0;
+        appRunning = true;
+        command = null;
+
         transactionList = new ArrayList<>();
         accumulator = new ArrayList<>();
         expense = new ArrayList<>();
