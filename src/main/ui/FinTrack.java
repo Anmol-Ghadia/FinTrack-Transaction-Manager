@@ -2,10 +2,7 @@ package ui;
 
 import exceptions.AccountNotFoundException;
 import com.github.freva.asciitable.AsciiTable;
-import model.Account;
-import model.Accumulator;
-import model.Expense;
-import model.Transaction;
+import model.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -82,17 +79,17 @@ public class FinTrack {
                 case "1":
                     System.out.println("selected new Account");
                     pause();
-//                    newAccount();
+                    newAccount();
                     break;
                 case "2":
                     System.out.println("selected modify account");
                     pause();
-//                    modifyAccount();
+                    modifyAccount();
                     break;
                 case "3":
                     System.out.println("selected delete Account");
                     pause();
-//                    deleteAccount();
+                    deleteAccount();
                     break;
                 case "4":
                     System.out.println("Going back to Main menu");
@@ -106,6 +103,116 @@ public class FinTrack {
                     break;
             }
         }
+    }
+
+    private void deleteAccount() {
+        Account acc = takeInputAccount("Enter account to delete");
+        boolean delete = takeInputYesNo("Are you sure that you want to delete the account?" + "\n"
+                + "All transactions in this account will be deleted including "
+                + "their double entries", "deleting Account");
+        if (delete) {
+            deleteTransactions(acc.getTransaction());
+            income.remove(acc);
+            accumulator.remove(acc);
+            expense.remove(acc);
+            loan.remove(acc);
+            System.out.println("Account deleted + all transactions in that account");
+            pause();
+        } else {
+            System.out.println("Aborting delete");
+            pause();
+        }
+    }
+
+    private void deleteTransactions(ArrayList<Transaction> transactions) {
+        for (Transaction t: transactions) {
+            deleteTransaction(t);
+        }
+    }
+
+    @SuppressWarnings("methodlength")
+    private void modifyAccount() {
+        Account acc;
+        while (true) {
+            command = input.next().toLowerCase();
+            try {
+                acc = findAccountFromString(command);
+                System.out.println("Account Found!");
+                pause();
+                break;
+            } catch (AccountNotFoundException e) {
+                System.out.println("Account not found(Try Again)");
+                pause();
+            }
+        }
+        int selected = takeInputIntegerRange("change \n 1) name \n 2) description", 1,2);
+        switch (selected) {
+            case 1:
+                String name = takeInputString("New name");
+                acc.setName(name);
+                System.out.println("Title changed");
+                pause();
+                break;
+            case 2:
+                // change desc
+                String desc = takeInputString("New Description");
+                acc.setDesc(desc);
+                System.out.println("description Changed");
+                pause();
+                break;
+        }
+    }
+
+    @SuppressWarnings("methodlength")
+    private void newAccount() {
+        System.out.println("Account Types\n 1) Income\n 2) Accumulator\n 3) Expense\n 4) Loan");
+        int type;
+        while (true) {
+            command = input.next();
+            try {
+                type = Integer.parseInt(command);
+                if (type < 5 && type > 0) {
+                    break;
+                }
+                throw new Exception();
+            } catch (Exception e) {
+                System.out.println("Invalid Input: please input a valid number");
+            }
+        }
+        String accountName;
+        Account newAccount;
+        while (true) {
+            System.out.println("Enter Account name");
+            accountName = input.next().toLowerCase();
+            try {
+                findAccountFromString(accountName);
+            } catch (AccountNotFoundException e) {
+                System.out.println("Enter a unique Account name(Account name already exists)");
+                pause();
+                break;
+            }
+        }
+        String desc = takeInputString("Enter Description for the Account");
+        switch (type) {
+            case 1:
+                newAccount = new Income(accountName.toUpperCase(),desc);
+                income.add(newAccount);
+                break;
+            case 2:
+                newAccount = new Accumulator(accountName.toUpperCase(),desc);
+                accumulator.add(newAccount);
+                break;
+            case 3:
+                newAccount = new Expense(accountName.toUpperCase(),desc);
+                expense.add(newAccount);
+                break;
+            case 4:
+                newAccount = new Loan(accountName.toUpperCase(),desc);
+                loan.add(newAccount);
+                break;
+        }
+        System.out.println("Account created");
+        pause();
     }
 
     @SuppressWarnings("methodlength")
@@ -123,7 +230,7 @@ public class FinTrack {
                 case "2":
                     System.out.println("selected All account summary");
                     pause();
-//                    allAccountSummary();
+                    allAccountSummary();
                     break;
                 case "3":
                     System.out.println("Going back to Main menu");
@@ -139,8 +246,45 @@ public class FinTrack {
         }
     }
 
+    private void allAccountSummary() {
+        String separator = "------------------------------------------------------------------";
+        System.out.println(summarizeAccountType(income));
+        System.out.println(separator);
+        System.out.println(summarizeAccountType(accumulator));
+        System.out.println(separator);
+        System.out.println(summarizeAccountType(expense));
+        System.out.println(separator);
+        System.out.println(summarizeAccountType(loan));
+    }
+
+    private String summarizeAccountType(ArrayList<Account> accountType) {
+        int total = 0;
+        String stringAccountType = "";
+        try {
+            stringAccountType = accountType.get(0).getAccountType();
+        } catch (IndexOutOfBoundsException e) {
+            return "*Empty Type*";
+        }
+        String[] header = {stringAccountType, "Account Balance"};
+        String[][] data = new String[accountType.size() + 1][2];
+        Account acc;
+        for (int i = 0; i < accountType.size(); i++) {
+            acc = accountType.get(i);
+            String[] row = new String[2];
+            row[0] = acc.getAccountName();
+            row[1] = String.valueOf(acc.getBalance());
+            total += acc.getBalance();
+            data[i] = row;
+        }
+        String[] finalRow = new String[2];
+        finalRow[0] = "Total Balance";
+        finalRow[1] = String.valueOf(total);
+        data[accountType.size()] = finalRow;
+        return accountType.get(0).getAccountType() + "\n" + AsciiTable.getTable(header,data);
+    }
+
     private void individualAccountSummary() {
-        Account selectedAccount = selectAccount();
+        Account selectedAccount = selectExistingAccount();
         System.out.print("Summary of " + selectedAccount.getAccountName());
         System.out.println("<" + selectedAccount.getAccountType() + ">");
         ArrayList<Transaction> transactions = selectedAccount.getTransaction();
@@ -161,7 +305,7 @@ public class FinTrack {
 
 
     @SuppressWarnings("methodlength")
-    private Account selectAccount() {
+    private Account selectExistingAccount() {
         while (true) {
             System.out.println("List of all accounts");
             System.out.println("Income:");
@@ -209,7 +353,7 @@ public class FinTrack {
                 case "3":
                     System.out.println("selected delete transaction");
                     pause();
-                    deleteTransaction();
+                    deleteTransactionSubmenu();
                     break;
                 case "4":
                     System.out.println("Going back to Main menu");
@@ -225,24 +369,30 @@ public class FinTrack {
         }
     }
 
-    private void deleteTransaction() {
+    private void deleteTransactionSubmenu() {
         System.out.println("Delete Transaction");
         printAllTransactions();
         Transaction t = takeInputTransactionID("Enter Transaction ID to delete");
         boolean shouldDelete = takeInputYesNo("Are you sure that you want to delete the transaction?",
                 "Deleting transaction with ID: " + t.getTransactionID());
         if (shouldDelete) {
-            if (!transactionList.remove(t)) {
-                System.out.println("transaction not found in transaction list");
-            }
-            if (!t.getFrom().deleteTransaction(t)) {
-                System.out.println("transaction not found in FROM account");
-            }
-            if (!t.getTo().deleteTransaction(t)) {
-                System.out.println("transaction not found in TO account");
-            }
+            deleteTransaction(t);
         } else {
             System.out.println("Aborting Delete");
+        }
+        pause();
+    }
+
+    private void deleteTransaction(Transaction t) {
+        // maybe redo this method
+        if (!transactionList.remove(t)) {
+            System.out.println("transaction not found in transaction list");
+        }
+        if (!t.getFrom().deleteTransaction(t)) {
+            System.out.println("transaction not found in FROM account");
+        }
+        if (!t.getTo().deleteTransaction(t)) {
+            System.out.println("transaction not found in TO account");
         }
         pause();
     }
@@ -254,23 +404,11 @@ public class FinTrack {
                         String.valueOf(t.getAmount()),t.getTitle(),
                         t.getDate().toString(),t.getDesc()}};
         System.out.println(stringTable(data));
-        System.out.println("What do you want to modify?");
-        System.out.println(" 1) From\n 2) To\n 3) Amount\n 4) Title\n 5) Date\n 6) Description\n");
-        int selected;
-        while (true) {
-            command = input.next().toLowerCase();
-            try {
-                selected = Integer.parseInt(command);
-                if (selected < 7 && selected > 0) {
-                    break;
-                } else {
-                    throw new Exception();
-                }
-            } catch (Exception e) {
-                System.out.println("Invalid input: please enter a valid number");
-            }
+        int selected = takeInputIntegerRange("What do you want to modify?\n 1) From\n 2) To\n"
+                + " 3) Amount\n 4) Title\n 5) Date\n 6) Description\n", 1,6);
+        if (selected != -1) {
+            modifyTransactionSubMenu(selected, t);
         }
-        modifyTransactionSubMenu(selected, t);
     }
 
     @SuppressWarnings("methodlength")
@@ -519,5 +657,31 @@ public class FinTrack {
             }
         }
         throw new AccountNotFoundException();
+    }
+
+    // EFFECTS: Attempts to take input repeatedly until correct data is received,
+    //          user may enter -1 to exit (which should be handled in the calling function)
+    private int takeInputIntegerRange(String textToDisplay,int lowerInclusive, int upperInclusive) {
+        int selected;
+        while (true) {
+            System.out.println(textToDisplay + "\n -1 to go back");
+            command = input.next().toLowerCase();
+            try {
+                selected = Integer.parseInt(command);
+                if (selected == -1) {
+                    return -1;
+                }
+                if (lowerInclusive <= selected && selected <= upperInclusive) {
+                    System.out.println("Valid input " + selected + " received");
+                    pause();
+                    return selected;
+                } else {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                System.out.println("Invalid input: please enter a valid number in range"
+                        + lowerInclusive + "," + upperInclusive + "]");
+            }
+        }
     }
 }

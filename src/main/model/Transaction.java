@@ -97,27 +97,6 @@ public class Transaction {
         this.date = date;
     }
 
-//    // REQUIRES:
-//    // MODIFIES:
-//    // EFFECTS:
-//    public void setDay(int day) {
-//        // STUB
-//    }
-//
-//    // REQUIRES:
-//    // MODIFIES:
-//    // EFFECTS:
-//    public void setMonth(int month) {
-//        // STUB
-//    }
-//
-//    // REQUIRES:
-//    // MODIFIES:
-//    // EFFECTS:
-//    public void setYear(int year) {
-//        // STUB
-//    }
-
     // MODIFIES: this
     // EFFECTS: sets the new title for this transaction
     public void setTitle(String title) {

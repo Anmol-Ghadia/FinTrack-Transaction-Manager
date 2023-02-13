@@ -1,5 +1,6 @@
 package model;
 
+import exceptions.AccountNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -67,7 +68,7 @@ public class AccumulatorTest {
     }
 
     @Test
-    public void transactionTestDebit() {
+    public void accountTestDebit() {
         checking.addTransaction(t1);
         checking.addTransaction(t2);
         checking.addTransaction(t3);
@@ -75,7 +76,7 @@ public class AccumulatorTest {
     }
 
     @Test
-    public void transactionTestCredit() {
+    public void accountTestCredit() {
         checking.addTransaction(t1);
         checking.addTransaction(t2);
         checking.addTransaction(t3);
@@ -83,7 +84,7 @@ public class AccumulatorTest {
     }
 
     @Test
-    public void transactionTestBalance() {
+    public void accountTestBalance() {
         checking.addTransaction(t1);
         checking.addTransaction(t2);
         checking.addTransaction(t3);
@@ -91,7 +92,7 @@ public class AccumulatorTest {
     }
 
     @Test
-    public void transactionTestDeleteTransaction() {
+    public void accountTestDeleteTransaction() {
         checking.addTransaction(t1);
         checking.addTransaction(t2);
         assertFalse(checking.deleteTransaction(t3));
@@ -100,4 +101,17 @@ public class AccumulatorTest {
         assertTrue(checking.deleteTransaction(t1));
     }
 
+    @Test
+    public void accountTestSetName() {
+        String newName = "CHECKING-BMO";
+        checking.setName(newName);
+        assertEquals(newName,checking.getAccountName());
+    }
+
+    @Test
+    public void accountTestSetDesc() {
+        String newDesc = "this is a new placeholder description";
+        checking.setDesc(newDesc);
+        assertEquals(newDesc,checking.getAccountDesc());
+    }
 }

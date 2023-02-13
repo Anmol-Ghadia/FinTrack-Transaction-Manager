@@ -86,4 +86,12 @@ public abstract class Account {
     public boolean deleteTransaction(Transaction t) {
         return transactions.remove(t);
     }
+
+    public void setName(String newName) {
+        accountName = newName.toUpperCase();
+    }
+
+    public void setDesc(String desc) {
+        this.accountDesc = desc;
+    }
 }
