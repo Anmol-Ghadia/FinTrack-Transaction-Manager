@@ -1,6 +1,5 @@
 package model;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 /*
@@ -8,7 +7,7 @@ import java.util.ArrayList;
 */
 
 public abstract class Account {
-    // Transactions are added from the front(index 0)
+    // Transactions are added from the front(index: 0)
     protected ArrayList<Transaction> transactions;
     protected String accountType;
     protected String accountName;
@@ -29,11 +28,13 @@ public abstract class Account {
             }
         }
         // should raise exception if not found
+        // can be implemented after C3
         return null;
     }
 
     public Transaction getLastTransaction() {
         // can return error if nothing exists in the array
+        // can be implemented after C3
         return transactions.get(0);
     }
 
@@ -78,5 +79,11 @@ public abstract class Account {
 
     public String getAccountDesc() {
         return accountDesc;
+    }
+
+    // MODIFIES: this
+    // EFFECTS: returns true if successfully removes the transaction, else false
+    public boolean deleteTransaction(Transaction t) {
+        return transactions.remove(t);
     }
 }

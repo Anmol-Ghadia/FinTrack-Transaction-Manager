@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 public class TransactionTest {
     Transaction t1;
@@ -56,5 +57,10 @@ public class TransactionTest {
         assertEquals("Uber refund",t1.getTitle());
         t1.setDesc("Uber returned money for unsatisfactory ride");
         assertEquals("Uber returned money for unsatisfactory ride",t1.getDesc());
+    }
+
+    @Test
+    public void transactionTestTemporary() {
+        assertNull(checking.getTransactionByID(999));
     }
 }

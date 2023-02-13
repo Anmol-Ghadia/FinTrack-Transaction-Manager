@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class AccumulatorTest {
     Account checking;
@@ -88,6 +88,16 @@ public class AccumulatorTest {
         checking.addTransaction(t2);
         checking.addTransaction(t3);
         assertEquals(-15-20+100, checking.getBalance());
+    }
+
+    @Test
+    public void transactionTestDeleteTransaction() {
+        checking.addTransaction(t1);
+        checking.addTransaction(t2);
+        assertFalse(checking.deleteTransaction(t3));
+        assertTrue(checking.deleteTransaction(t2));
+        checking.addTransaction(t2);
+        assertTrue(checking.deleteTransaction(t1));
     }
 
 }
