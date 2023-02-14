@@ -52,9 +52,14 @@ public class User {
     // EFFECTS: adds expense if not already in list,
     //          can throw exception if account type is incorrect
     public void addExpense(Account acc) {
-        if (!expense.contains(acc) && acc.getAccountType().equals("EXPENSE")) {
-            expense.add(acc);
+        if (acc.getAccountType().equals("EXPENSE")) {
+            if (!expense.contains(acc)) {
+                expense.add(acc);
+            }
         }
+//        if (!expense.contains(acc) && acc.getAccountType().equals("EXPENSE")) {
+//            expense.add(acc);
+//        }
     }
 
     // MODIFIES: this

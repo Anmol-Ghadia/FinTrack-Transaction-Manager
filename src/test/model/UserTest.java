@@ -183,7 +183,7 @@ public class UserTest {
     }
 
     @Test
-    public void userTesttransactionList() {
+    public void userTestTransactionList() {
         assertEquals(0,user1.getTransactionList().size());
         user1.addTransaction(t1);
         assertEquals(1,user1.getTransactionList().size());
