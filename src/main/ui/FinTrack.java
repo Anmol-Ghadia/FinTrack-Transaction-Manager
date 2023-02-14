@@ -10,11 +10,12 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class FinTrack {
-    private ArrayList<Account> accumulator;
-    private ArrayList<Account> expense;
-    private ArrayList<Account> income;
-    private ArrayList<Account> loan;
-    private ArrayList<Transaction> transactionList;
+//    private ArrayList<Account> accumulator;
+//    private ArrayList<Account> expense;
+//    private ArrayList<Account> income;
+//    private ArrayList<Account> loan;
+//    private ArrayList<Transaction> transactionList;
+    User user;
     private Scanner input;
     private boolean appRunning;
     private int transactionCount;
@@ -43,22 +44,23 @@ public class FinTrack {
 
     // EFFECTS: Initializes global variables
     public void init() {
+        user = new User();
         transactionCount = 0;
         appRunning = true;
         command = null;
 
-        transactionList = new ArrayList<>();
-        accumulator = new ArrayList<>();
-        expense = new ArrayList<>();
-        loan = new ArrayList<>();
-        income = new ArrayList<>();
+//        transactionList = new ArrayList<>();
+//        accumulator = new ArrayList<>();
+//        expense = new ArrayList<>();
+//        loan = new ArrayList<>();
+//        income = new ArrayList<>();
 
 
         // TEMP
         Account acc1 = new Accumulator("SAVINGS","CIBC");
-        accumulator.add(acc1);
+        user.getAccumulator().add(acc1);
         Account travel = new Expense("TRAVEL","traveling costs");
-        expense.add(travel);
+        user.getExpense().add(travel);
         // TEMP
 
 
@@ -128,7 +130,7 @@ public class FinTrack {
             Transaction t = new Transaction(transactionCount, from, to, amt, date, title, desc);
             from.addTransaction(t);
             to.addTransaction(t);
-            transactionList.add(t);
+            user.getTransactionList().add(t);
             transactionCount++;
             pause("|||-> Added Transaction Successfully");
         } else {
@@ -156,9 +158,9 @@ public class FinTrack {
         System.out.println("||| List of all transactions with ID");
         String[] header = {"ID","From","To","amount","title","date","description"};
         Transaction t;
-        String[][] data = new String[transactionList.size()][7];
-        for (int i = 0; i < transactionList.size(); i++) {
-            t = transactionList.get(i);
+        String[][] data = new String[user.getTransactionList().size()][7];
+        for (int i = 0; i < user.getTransactionList().size(); i++) {
+            t = user.getTransactionList().get(i);
             String[] row = new String[7];
             row[0] = String.valueOf(t.getTransactionID());
             row[1] = t.getFrom().getAccountName();
@@ -221,7 +223,7 @@ public class FinTrack {
     // EFFECTS: deletes transaction from all appropriate places
     private void deleteTransaction(Transaction t) {
         // maybe redo this method
-        if (!transactionList.remove(t)) {
+        if (!user.getTransactionList().remove(t)) {
             pause("|||-> **Transaction not found <transaction list>**");
         }
         if (!t.getFrom().deleteTransaction(t)) {
@@ -279,19 +281,19 @@ public class FinTrack {
         switch (select) {
             case 1:
                 newAccount = new Income(accountName.toUpperCase(),desc);
-                income.add(newAccount);
+                user.getIncome().add(newAccount);
                 break;
             case 2:
                 newAccount = new Accumulator(accountName.toUpperCase(),desc);
-                accumulator.add(newAccount);
+                user.getAccumulator().add(newAccount);
                 break;
             case 3:
                 newAccount = new Expense(accountName.toUpperCase(),desc);
-                expense.add(newAccount);
+                user.getExpense().add(newAccount);
                 break;
             case 4:
                 newAccount = new Loan(accountName.toUpperCase(),desc);
-                loan.add(newAccount);
+                user.getLoan().add(newAccount);
                 break;
         }
         pause("|||-> Account created");
@@ -323,10 +325,10 @@ public class FinTrack {
                 + "their double entries", "|||-> Deleting Account");
         if (delete) {
             deleteTransactions(acc.getTransaction());
-            income.remove(acc);
-            accumulator.remove(acc);
-            expense.remove(acc);
-            loan.remove(acc);
+            user.getIncome().remove(acc);
+            user.getAccumulator().remove(acc);
+            user.getExpense().remove(acc);
+            user.getLoan().remove(acc);
             pause("|||-> Account deleted and all the transactions from that account");
         } else {
             pause("|||-> Aborting delete");
@@ -382,13 +384,13 @@ public class FinTrack {
     // EFFECTS: Displays all accounts sorted by type
     private void allAccountSummaryMenu() {
         String separator = "------------------------------------------------------------------";
-        System.out.println(summarizeAccountType(income));
+        System.out.println(summarizeAccountType(user.getIncome()));
         System.out.println(separator);
-        System.out.println(summarizeAccountType(accumulator));
+        System.out.println(summarizeAccountType(user.getAccumulator()));
         System.out.println(separator);
-        System.out.println(summarizeAccountType(expense));
+        System.out.println(summarizeAccountType(user.getExpense()));
         System.out.println(separator);
-        System.out.println(summarizeAccountType(loan));
+        System.out.println(summarizeAccountType(user.getLoan()));
     }
 
     // EFFECTS: Returns table summarizing a list of single type of accounts
@@ -422,13 +424,13 @@ public class FinTrack {
     private Account selectExistingAccount() {
         while (true) {
             System.out.println("||| List of all accounts\n ||| Income:");
-            selectExistingAccountHelper(income);
+            selectExistingAccountHelper(user.getIncome());
             System.out.println("||| Expense:");
-            selectExistingAccountHelper(expense);
+            selectExistingAccountHelper(user.getExpense());
             System.out.println("||| Accumulator:");
-            selectExistingAccountHelper(accumulator);
+            selectExistingAccountHelper(user.getAccumulator());
             System.out.println("||| Loan:");
-            selectExistingAccountHelper(loan);
+            selectExistingAccountHelper(user.getLoan());
             command = input.next().toLowerCase();
             try {
                 return findAccountFromString(command);
@@ -452,7 +454,7 @@ public class FinTrack {
             System.out.print(textToDisplay + ": ");
             command = input.next().toLowerCase();
             possibleID = Integer.parseInt(command);
-            for (Transaction t: transactionList) {
+            for (Transaction t: user.getTransactionList()) {
                 if (possibleID == t.getTransactionID()) {
                     pause("Found ID: " + possibleID);
                     return t;
@@ -578,22 +580,22 @@ public class FinTrack {
 
     // EFFECTS: finds am account in the app with given name, returns a reference to the object
     private Account findAccountFromString(String accountName) throws AccountNotFoundException {
-        for (Account acc: accumulator) {
+        for (Account acc: user.getAccumulator()) {
             if (acc.getAccountName().toLowerCase().equals(accountName)) {
                 return acc;
             }
         }
-        for (Account acc: expense) {
+        for (Account acc: user.getExpense()) {
             if (acc.getAccountName().toLowerCase().equals(accountName)) {
                 return acc;
             }
         }
-        for (Account acc: income) {
+        for (Account acc: user.getIncome()) {
             if (acc.getAccountName().toLowerCase().equals(accountName)) {
                 return acc;
             }
         }
-        for (Account acc: loan) {
+        for (Account acc: user.getLoan()) {
             if (acc.getAccountName().toLowerCase().equals(accountName)) {
                 return acc;
             }
