@@ -188,4 +188,56 @@ public class UserTest {
         user1.addTransaction(t1);
         assertEquals(1,user1.getTransactionList().size());
     }
+
+    @Test
+    public void userTestRemoveAccumulator() {
+        assertEquals(0,user1.getAccumulator().size());
+        user1.addAccumulator(acc1);
+        assertEquals(1,user1.getAccumulator().size());
+        user1.addAccumulator(acc2);
+        assertEquals(2,user1.getAccumulator().size());
+        user1.removeAccumulator(acc1);
+        assertEquals(1,user1.getAccumulator().size());
+        user1.removeAccumulator(acc2);
+        assertEquals(0,user1.getAccumulator().size());
+    }
+
+    @Test
+    public void userTestRemoveIncome() {
+        assertEquals(0,user1.getIncome().size());
+        user1.addIncome(inc1);
+        assertEquals(1,user1.getIncome().size());
+        user1.addIncome(inc2);
+        assertEquals(2,user1.getIncome().size());
+        user1.removeIncome(inc1);
+        assertEquals(1,user1.getIncome().size());
+        user1.removeIncome(inc2);
+        assertEquals(0,user1.getIncome().size());
+    }
+
+    @Test
+    public void userTestRemoveExpense() {
+        assertEquals(0,user1.getExpense().size());
+        user1.addExpense(exp1);
+        assertEquals(1,user1.getExpense().size());
+        user1.addExpense(exp2);
+        assertEquals(2,user1.getExpense().size());
+        user1.removeExpense(exp1);
+        assertEquals(1,user1.getExpense().size());
+        user1.removeExpense(exp2);
+        assertEquals(0,user1.getExpense().size());
+    }
+
+    @Test
+    public void userTestRemoveLoan() {
+        assertEquals(0,user1.getLoan().size());
+        user1.addLoan(lon1);
+        assertEquals(1,user1.getLoan().size());
+        user1.addLoan(lon2);
+        assertEquals(2,user1.getLoan().size());
+        user1.removeLoan(lon1);
+        assertEquals(1,user1.getLoan().size());
+        user1.removeLoan(lon2);
+        assertEquals(0,user1.getLoan().size());
+    }
 }

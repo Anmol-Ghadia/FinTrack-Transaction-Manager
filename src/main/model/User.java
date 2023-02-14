@@ -81,6 +81,36 @@ public class User {
         transactionList.add(t);
     }
 
+    // MODIFIES: this
+    // EFFECTS: returns true if accumulator account is removed from user
+    public boolean removeAccumulator(Account acc) {
+        return accumulator.remove(acc);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: returns true if income account is removed from user
+    public boolean removeIncome(Account acc) {
+        return  income.remove(acc);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: returns true if expense account is removed from user
+    public boolean removeExpense(Account acc) {
+        return expense.remove(acc);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: returns true if loan account is removed from user
+    public boolean removeLoan(Account acc) {
+        return loan.remove(acc);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: returns true if transaction is removed from user
+    public boolean removeTransaction(Transaction t) {
+        return transactionList.remove(t);
+    }
+
     // EFFECTS: finds am account with given name, returns a reference to the object
     public Account findAccountFromString(String accountName) throws AccountNotFoundException {
         for (Account acc: getAccumulator()) {

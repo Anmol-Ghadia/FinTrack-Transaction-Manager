@@ -117,7 +117,7 @@ public class FinTrack {
             Transaction t = new Transaction(transactionCount, from, to, amt, date, title, desc);
             from.addTransaction(t);
             to.addTransaction(t);
-            user.getTransactionList().add(t);
+            user.addTransaction(t);
             transactionCount++;
             pause("|||-> Added Transaction Successfully");
         } else {
@@ -210,7 +210,7 @@ public class FinTrack {
     // EFFECTS: deletes transaction from all appropriate places
     private void deleteTransaction(Transaction t) {
         // maybe redo this method
-        if (!user.getTransactionList().remove(t)) {
+        if (!user.removeTransaction(t)) {
             pause("|||-> **Transaction not found <transaction list>**");
         }
         if (!t.getFrom().deleteTransaction(t)) {
@@ -268,19 +268,19 @@ public class FinTrack {
         switch (select) {
             case 1:
                 newAccount = new Income(accountName.toUpperCase(),desc);
-                user.getIncome().add(newAccount);
+                user.addIncome(newAccount);
                 break;
             case 2:
                 newAccount = new Accumulator(accountName.toUpperCase(),desc);
-                user.getAccumulator().add(newAccount);
+                user.addAccumulator(newAccount);
                 break;
             case 3:
                 newAccount = new Expense(accountName.toUpperCase(),desc);
-                user.getExpense().add(newAccount);
+                user.addExpense(newAccount);
                 break;
             case 4:
                 newAccount = new Loan(accountName.toUpperCase(),desc);
-                user.getLoan().add(newAccount);
+                user.addLoan(newAccount);
                 break;
         }
         pause("|||-> Account created");
@@ -312,10 +312,10 @@ public class FinTrack {
                 + "their double entries", "|||-> Deleting Account");
         if (delete) {
             deleteTransactions(acc.getTransaction());
-            user.getIncome().remove(acc);
-            user.getAccumulator().remove(acc);
-            user.getExpense().remove(acc);
-            user.getLoan().remove(acc);
+            user.removeIncome(acc);
+            user.removeAccumulator(acc);
+            user.removeExpense(acc);
+            user.removeLoan(acc);
             pause("|||-> Account deleted and all the transactions from that account");
         } else {
             pause("|||-> Aborting delete");
