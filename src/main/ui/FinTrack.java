@@ -27,7 +27,6 @@ public class FinTrack {
 
 
     // EFFECTS: Initializes global variables, sets some initial data and starts the app
-    // !!! set some initial data needs to be it's own function
     private void runConsoleApp() {
         init();
         while (appRunning) {
@@ -43,24 +42,17 @@ public class FinTrack {
         transactionCount = 0;
         appRunning = true;
         command = null;
-
-//        transactionList = new ArrayList<>();
-//        accumulator = new ArrayList<>();
-//        expense = new ArrayList<>();
-//        loan = new ArrayList<>();
-//        income = new ArrayList<>();
-
-
-        // TEMP
-        Account acc1 = new Accumulator("SAVINGS","CIBC");
-        user.getAccumulator().add(acc1);
-        Account travel = new Expense("TRAVEL","traveling costs");
-        user.getExpense().add(travel);
-        // TEMP
-
-
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        setInitialData();
+    }
+
+    // EFFECTS: sets some initial data as an example
+    private void setInitialData() {
+        Account acc1 = new Accumulator("SAVINGS","CIBC");
+        user.addAccumulator(acc1);
+        Account travel = new Expense("TRAVEL","traveling costs");
+        user.addExpense(travel);
     }
 
     // EFFECTS: Displays and takes user input for Main menu(0)

@@ -72,7 +72,7 @@ public class UserTest {
         assertEquals(1, user1.getExpense().size());
         user1.addExpense(exp1);
         assertEquals(1, user1.getExpense().size());
-        user1.addAccumulator(lon1);
+        user1.addExpense(lon1);
         assertEquals(1, user1.getExpense().size());
     }
 
@@ -92,7 +92,7 @@ public class UserTest {
         assertEquals(1, user1.getIncome().size());
         user1.addIncome(inc1);
         assertEquals(1, user1.getIncome().size());
-        user1.addAccumulator(lon1);
+        user1.addIncome(lon1);
         assertEquals(1, user1.getIncome().size());
     }
 
@@ -112,7 +112,7 @@ public class UserTest {
         assertEquals(1, user1.getLoan().size());
         user1.addLoan(lon1);
         assertEquals(1, user1.getLoan().size());
-        user1.addAccumulator(acc1);
+        user1.addLoan(acc1);
         assertEquals(1, user1.getLoan().size());
     }
 
