@@ -10,11 +10,6 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class FinTrack {
-//    private ArrayList<Account> accumulator;
-//    private ArrayList<Account> expense;
-//    private ArrayList<Account> income;
-//    private ArrayList<Account> loan;
-//    private ArrayList<Transaction> transactionList;
     User user;
     private Scanner input;
     private boolean appRunning;
@@ -265,7 +260,7 @@ public class FinTrack {
             System.out.println("||| Enter Account name");
             accountName = input.next().toLowerCase();
             try {
-                findAccountFromString(accountName);
+                user.findAccountFromString(accountName);
             } catch (AccountNotFoundException e) {
                 pause("|||-> **Enter a unique Account name(Account name already exists)**");
                 break;
@@ -433,7 +428,7 @@ public class FinTrack {
             selectExistingAccountHelper(user.getLoan());
             command = input.next().toLowerCase();
             try {
-                return findAccountFromString(command);
+                return user.findAccountFromString(command);
             } catch (AccountNotFoundException e) {
                 System.out.println("|||-> Invalid Account Name(Account does not exist)");
             }
@@ -555,7 +550,7 @@ public class FinTrack {
             command = input.next().toLowerCase();
             try {
                 pause("Account found");
-                return findAccountFromString(command);
+                return user.findAccountFromString(command);
             } catch (AccountNotFoundException e) {
                 pause("Invalid Account Name(Account does not exist)");
             }
@@ -576,31 +571,6 @@ public class FinTrack {
         } catch (Exception e) {
             // User interrupt, go back to regular execution
         }
-    }
-
-    // EFFECTS: finds am account in the app with given name, returns a reference to the object
-    private Account findAccountFromString(String accountName) throws AccountNotFoundException {
-        for (Account acc: user.getAccumulator()) {
-            if (acc.getAccountName().toLowerCase().equals(accountName)) {
-                return acc;
-            }
-        }
-        for (Account acc: user.getExpense()) {
-            if (acc.getAccountName().toLowerCase().equals(accountName)) {
-                return acc;
-            }
-        }
-        for (Account acc: user.getIncome()) {
-            if (acc.getAccountName().toLowerCase().equals(accountName)) {
-                return acc;
-            }
-        }
-        for (Account acc: user.getLoan()) {
-            if (acc.getAccountName().toLowerCase().equals(accountName)) {
-                return acc;
-            }
-        }
-        throw new AccountNotFoundException();
     }
 
     private String stringTable(String[][] data) {
