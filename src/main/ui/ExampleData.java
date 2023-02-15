@@ -22,11 +22,9 @@ public class ExampleData {
     Account bob;
     Account club;
 
-    public ExampleData() {}
-
     // MODIFIES: user
     // EFFECTS: adds example data to user
-    public int setData(User userToInitialize,int transactionCount) {
+    public ExampleData(User userToInitialize,int transactionCount) {
         this.user = userToInitialize;
         this.transactionCount = transactionCount;
         initAccumulators();
@@ -34,6 +32,11 @@ public class ExampleData {
         initIncome();
         initLoan();
         addExampleTransactions();
+    }
+
+
+    // EFFECTS: returns the transaction count
+    public int getTransactionCount() {
         return this.transactionCount;
     }
 

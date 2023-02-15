@@ -39,8 +39,8 @@ public class FinTrack {
         command = null;
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        ExampleData ed = new ExampleData();
-        transactionCount = ed.setData(user,transactionCount);
+        ExampleData ed = new ExampleData(user,transactionCount);
+        transactionCount = ed.getTransactionCount();
     }
 
     // EFFECTS: Displays and takes user input for Main menu(0)
@@ -152,33 +152,31 @@ public class FinTrack {
     }
 
     // EFFECTS: Handles input for modify transaction menu
-    @SuppressWarnings("methodlength")
     private void modifyTransactionMenuHandleInput(int selected, Transaction transaction) {
-        switch (selected) {
-            case 1: // modify from
-                Account from = takeInputAccount("||| Enter new credit Account");
-                transactionNewFrom(transaction, from);
-                break;
-            case 2: // modify to
-                Account to = takeInputAccount("||| Enter new debit Account");
-                transactionNewTo(transaction, to);
-                break;
-            case 3: // modify amount
-                int amt = takeInputNatural("||| Enter new transaction Amount");
-                transaction.setAmount(amt);
-                break;
-            case 4: // modify title
-                String title = takeInputString("||| Enter new Title");
-                transaction.setTitle(title);
-                break;
-            case 5: // modify date
-                LocalDate date = takeInputDate("||| Enter new Date");
-                transaction.setDate(date);
-                break;
-            case 6: // modify desc
-                String desc = takeInputString("||| Enter new Description");
-                transaction.setDesc(desc);
-                break;
+        if (selected == 1) {
+            // modify from
+            Account from = takeInputAccount("||| Enter new credit Account");
+            transactionNewFrom(transaction, from);
+        } else if (selected == 2) {
+            // modify to
+            Account to = takeInputAccount("||| Enter new debit Account");
+            transactionNewTo(transaction, to);
+        } else if (selected == 3) {
+            // modify amount
+            int amt = takeInputNatural("||| Enter new transaction Amount");
+            transaction.setAmount(amt);
+        } else if (selected == 4) {
+            // modify title
+            String title = takeInputString("||| Enter new Title");
+            transaction.setTitle(title);
+        } else if (selected == 5) {
+            // modify date
+            LocalDate date = takeInputDate("||| Enter new Date");
+            transaction.setDate(date);
+        } else {
+            // modify desc
+            String desc = takeInputString("||| Enter new Description");
+            transaction.setDesc(desc);
         }
         pause("|||-> Modified Transaction");
     }
