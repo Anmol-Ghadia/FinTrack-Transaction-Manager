@@ -4,6 +4,9 @@ import model.*;
 
 import java.time.LocalDate;
 
+/*
+    A class that may be used to add dummy/ Example values to the app
+*/
 public class ExampleData {
 
     User user;

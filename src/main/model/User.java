@@ -4,6 +4,10 @@ import exceptions.AccountNotFoundException;
 
 import java.util.ArrayList;
 
+/*
+    Represents a user, should be instantiated only once. contains different transactions and accounts
+    that a user may need
+*/
 public class User {
     private ArrayList<Account> accumulator;
     private ArrayList<Account> expense;
@@ -19,29 +23,33 @@ public class User {
         income = new ArrayList<>();
     }
 
+    // EFFECTS: returns the accumulator account ArrayList
     public ArrayList<Account> getAccumulator() {
         return accumulator;
     }
 
+    // EFFECTS: returns the expense account ArrayList
     public ArrayList<Account> getExpense() {
         return expense;
     }
 
+    // EFFECTS: returns the income account ArrayList
     public ArrayList<Account> getIncome() {
         return income;
     }
 
+    // EFFECTS: returns the loan account ArrayList
     public ArrayList<Account> getLoan() {
         return loan;
     }
 
+    // EFFECTS: returns the transaction list
     public ArrayList<Transaction> getTransactionList() {
         return transactionList;
     }
 
     // MODIFIES: this
-    // EFFECTS: adds accumulator if not already in list,
-    //          can throw exception if account type is incorrect
+    // EFFECTS: adds accumulator if not already in list
     public void addAccumulator(Account acc) {
         if (!accumulator.contains(acc) && acc.getAccountType().equals("ACCUMULATOR")) {
             accumulator.add(acc);
@@ -49,8 +57,7 @@ public class User {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds expense if not already in list,
-    //          can throw exception if account type is incorrect
+    // EFFECTS: adds expense if not already in list
     public void addExpense(Account acc) {
         if (!expense.contains(acc) && acc.getAccountType().equals("EXPENSE")) {
             expense.add(acc);
@@ -58,8 +65,7 @@ public class User {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds income if not already in list,
-    //          can throw exception if account type is incorrect
+    // EFFECTS: adds income if not already in list
     public void addIncome(Account acc) {
         if (!income.contains(acc) && acc.getAccountType().equals("INCOME")) {
             income.add(acc);
@@ -67,8 +73,7 @@ public class User {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds loan if not already in list,
-    //          can throw exception if account type is incorrect
+    // EFFECTS: adds loan if not already in list
     public void addLoan(Account acc) {
         if (!loan.contains(acc) && acc.getAccountType().equals("LOAN")) {
             loan.add(acc);
@@ -82,7 +87,7 @@ public class User {
     }
 
     // MODIFIES: this
-    // EFFECTS: adds transaction to the user's transaction list, with from and to accounts
+    // EFFECTS: adds transaction to the user's transaction list, and also in appropriate accounts
     public void addTransactionComplete(Transaction t) {
         t.getFrom().addTransaction(t);
         t.getTo().addTransaction(t);
@@ -119,7 +124,7 @@ public class User {
         return transactionList.remove(t);
     }
 
-    // EFFECTS: finds am account with given name, returns a reference to the object
+    // EFFECTS: finds an account with the given name and returns it
     public Account findAccountFromString(String accountName) throws AccountNotFoundException {
         for (Account acc: getAccumulator()) {
             if (acc.getAccountName().equalsIgnoreCase(accountName)) {

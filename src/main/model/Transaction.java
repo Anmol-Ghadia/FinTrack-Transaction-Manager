@@ -3,7 +3,8 @@ package model;
 import java.time.LocalDate;
 
 /*
- * Represents a unique transaction
+ * Represents a transaction, with important details like date, amount, accounts and more personalized information
+ * like title, and description.
 */
 public class Transaction {
     private final int transactionID;
@@ -30,42 +31,52 @@ public class Transaction {
         this.desc = desc;
     }
 
+    // EFFECTS: returns the transaction ID
     public int getTransactionID() {
         return transactionID;
     }
 
+    // EFFECTS: returns the credit(from) account
     public Account getFrom() {
         return from;
     }
 
+    // EFFECTS: returns the debit(to) account
     public Account getTo() {
         return to;
     }
 
+    // EFFECTS: returns the amount of transaction
     public int getAmount() {
         return amount;
     }
 
+    // EFFECTS: returns the date
     public LocalDate getDate() {
         return date;
     }
 
+    // EFFECTS: returns the day of the month
     public int getDay() {
         return this.date.getDayOfMonth();
     }
 
+    // EFFECTS: returns the month of the year as a number
     public int getMonth() {
         return this.date.getMonthValue();
     }
 
+    // EFFECTS: returns the year of transaction
     public int getYear() {
         return this.date.getYear();
     }
 
+    // EFFECTS: returns the title of the transaction
     public String getTitle() {
         return title;
     }
 
+    // EFFECTS: returns the description of the transaction
     public String getDesc() {
         return desc;
     }
@@ -86,14 +97,12 @@ public class Transaction {
     // MODIFIES: this
     // EFFECTS: sets the new amount for this transaction
     public void setAmount(int amount) {
-        // STUB
         this.amount = amount;
     }
 
     // MODIFIES: this
     // EFFECTS: sets the new date for this transaction
     public void setDate(LocalDate date) {
-        // STUB
         this.date = date;
     }
 
@@ -106,7 +115,6 @@ public class Transaction {
     // MODIFIES: this
     // EFFECTS: sets the new description for this transaction
     public void setDesc(String desc) {
-        // STUB
         this.desc = desc;
     }
 }

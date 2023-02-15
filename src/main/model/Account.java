@@ -3,10 +3,14 @@ package model;
 import java.util.ArrayList;
 
 /*
-* A general Account model for more specific accounts.
+* A general Account model for more specific accounts
+* (concrete subclasses of this abstract super class)
+*        ( All tests related to this abstract class can be found in the AccumulatorTest which tests )
+*        (     the Accumulator concrete class which is a subclass of this abstract class            )
 */
 
 public abstract class Account {
+
     // Transactions are added from the front(index: 0)
     protected ArrayList<Transaction> transactions;
     protected String accountType;
@@ -17,10 +21,12 @@ public abstract class Account {
         return transactions;
     }
 
+    // EFFECTS: Get transaction at specific index
     public Transaction getTransaction(int index) {
         return transactions.get(index);
     }
 
+    // EFFECTS: get transaction by transaction id
     public Transaction getTransactionByID(int id) {
         for (Transaction t: transactions) {
             if (t.getTransactionID() == id) {
@@ -32,16 +38,19 @@ public abstract class Account {
         return null;
     }
 
+    // EFFECTS: returns the last transaction, index 0
     public Transaction getLastTransaction() {
         // can return error if nothing exists in the array
         // can be implemented after C3
         return transactions.get(0);
     }
 
+    // EFFECTS: return the outstanding balance of the account
     public int getBalance() {
         return getDebit() - getCredit();
     }
 
+    // EFFECTS: return the total of inflows into the account
     public int getDebit() {
         int total = 0;
         for (Transaction t: transactions) {
@@ -52,6 +61,7 @@ public abstract class Account {
         return total;
     }
 
+    // EFFECTS: return the total of outflows from the account
     public int getCredit() {
         int total = 0;
         for (Transaction t: transactions) {
@@ -68,15 +78,18 @@ public abstract class Account {
         transactions.add(0, transaction);
     }
 
+    // EFFECTS: returns the type of account
     public String getAccountType() {
         // STUB
         return accountType;
     }
 
+    // EFFECTS: returns the name of the account
     public String getAccountName() {
         return accountName;
     }
 
+    // EFFECTS: returns the account description
     public String getAccountDesc() {
         return accountDesc;
     }
@@ -87,10 +100,14 @@ public abstract class Account {
         return transactions.remove(t);
     }
 
+    // MODIFIES: this
+    // EFFECTS: changes the name of the account to newName
     public void setName(String newName) {
         accountName = newName.toUpperCase();
     }
 
+    // MODIFIES: this
+    // EFFECTS: changes the account description to desc
     public void setDesc(String desc) {
         this.accountDesc = desc;
     }

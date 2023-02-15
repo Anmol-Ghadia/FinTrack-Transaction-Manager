@@ -15,11 +15,13 @@ The motivation for this project comes from the personal experience of managing f
 
 ### User Stories
 
-* As a user, I want to be able to add a transaction to my accounts so that I can keep track of my spending and income.
-* As a user, I want to be able to view a list of all my transactions in a specific account so that I can see my spending and income history.
-* As a user, I want to be able to categorize a transaction so that I can track my spending by category.
-* As a user, I want to be able to edit a transaction so that I can correct any mistakes.
-* As a user, I want to be able to view a summary of my spending and income by category so that I can see where my money is going.
+* As a user, I want to be able to add multiple **transactions** to any of my **accounts** so that I can keep track of my spending and income.
+* As a user, I want to be able to **create** several **accounts** so that I can track my spending by category.
+* As a user, I want to be able to **view** a list of all my **transactions** in a specific account so that I can see my spending and income history by category.
+* As a user, I want to be able to **view** a list of all my **accounts** with summary, so that I can see where my money is going.
+* As a user, I want to be able to **edit** or **delete** a **transaction** so that I can correct any mistakes or make changes.
+* As a user, I want to be able to **edit** or **delete** an **Account** so that I can correct any mistakes or make changes.
+
 
 ### Links:
 [GitHub-Source](https://github.students.cs.ubc.ca/CPSC210-2022W-T2/project_y6y5s)
