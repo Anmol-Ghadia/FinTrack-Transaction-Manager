@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
+/*
+    Test class for Transaction class
+*/
 public class TransactionTest {
     Transaction t1;
     Account checking;

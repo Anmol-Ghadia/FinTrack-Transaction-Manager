@@ -8,6 +8,9 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/*
+    Test class for Accumulator and abstract class: Account
+*/
 public class AccumulatorTest {
     Account checking;
     Account travel;

@@ -22,7 +22,6 @@ public class FinTrack {
         runConsoleApp();
     }
 
-
     // EFFECTS: Initializes global variables, sets some initial data and starts the app
     private void runConsoleApp() {
         init();
@@ -159,11 +158,9 @@ public class FinTrack {
             case 1: // modify from
                 Account from = takeInputAccount("||| Enter new credit Account");
                 transactionNewFrom(transaction, from);
-                //transaction.setFrom(from);
                 break;
             case 2: // modify to
                 Account to = takeInputAccount("||| Enter new debit Account");
-//                transaction.setTo(to);
                 transactionNewTo(transaction, to);
                 break;
             case 3: // modify amount
@@ -185,7 +182,6 @@ public class FinTrack {
         }
         pause("|||-> Modified Transaction");
     }
-
 
     // MODIFIES: user, transaction
     // EFFECTS: changes the transaction's credit(from) account
