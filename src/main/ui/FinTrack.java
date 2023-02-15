@@ -12,14 +12,8 @@ import java.util.concurrent.TimeUnit;
 public class FinTrack {
     User user;
     private Scanner input;
-    private boolean appRunning;
-    private Integer transactionCount;
+    private int transactionCount;
     String command;
-    private final String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n| 4) quit";
-    private final String menu1 = "||Transaction\n|| 1) Create\n|| 2) Modify\n|| 3) Delete\n|| 4) [Back] Main Menu";
-
-    private final String menu2 = "||Account\n|| 1) Add new\n|| 2) Modify\n|| 3) Delete\n|| 4) [Back] Main Menu";
-    private final String menu3 = "||Summary\n|| 1) Individual Account\n|| 2) All Account\n|| 3) [Back] Main Menu";
 
     public FinTrack() {
         runConsoleApp();
@@ -29,27 +23,27 @@ public class FinTrack {
     // EFFECTS: Initializes global variables, sets some initial data and starts the app
     private void runConsoleApp() {
         init();
-        while (appRunning) {
+        do {
+            String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n| 4) quit";
             System.out.println(menu0);
             command = input.next().toLowerCase();
-            handleMenu0();
-        }
+        } while (handleMenu0());
     }
 
+    // MODIFIES: user
     // EFFECTS: Initializes global variables
     public void init() {
         user = new User();
-        transactionCount = 0;
-        appRunning = true;
         command = null;
         input = new Scanner(System.in);
         input.useDelimiter("\n");
         ExampleData ed = new ExampleData();
-        ed.setData(user,transactionCount);
+        transactionCount = ed.setData(user,transactionCount);
     }
 
     // EFFECTS: Displays and takes user input for Main menu(0)
-    private void handleMenu0() {
+    //          returns false to stop app, to continue: true
+    private boolean handleMenu0() {
         switch (command) {
             case "1": // transaction operation
                 pause("|-> Selected Transaction");
@@ -64,18 +58,19 @@ public class FinTrack {
                 handleMenu3();
                 break;
             case "4": // end of app
-                appRunning = false;
                 pause("|-> Exiting :(");
-                break;
+                return false;
             default: // incorrect input
                 pause("|-> **Invalid Input**");
                 break;
         }
+        return true;
     }
 
     // EFFECTS: Displays and takes user input for Transaction Menu(1)
     private void handleMenu1() {
-        int selected = takeInputIntegerRange(menu1,1,4);
+        String menu1 = "||Transaction\n|| 1) Create\n|| 2) Modify\n|| 3) Delete\n|| 4) [Back] Main Menu";
+        int selected = takeInputIntegerRange(menu1, 4);
         switch (selected) {
             case 1: // create transaction
                 pause("||-> Selected Create transaction");
@@ -105,7 +100,7 @@ public class FinTrack {
         String desc = takeInputString("||| Enter description of transaction");
         String[][] data = {{from.getAccountName(),to.getAccountName(),String.valueOf(amt),title,date.toString(),desc}};
         System.out.println(stringTable(data));
-        boolean add = takeInputYesNo("|||-> Do you want to add the above transaction?", "|||->Adding Transaction");
+        boolean add = takeInputYesNo("|||-> Do you want to add the above transaction?", "|||-> Adding Transaction");
         if (add) {
             Transaction t = new Transaction(transactionCount, from, to, amt, date, title, desc);
             from.addTransaction(t);
@@ -120,21 +115,21 @@ public class FinTrack {
 
     // EFFECTS: takes user input for modifying a transaction by id
     private void modifyTransactionMenu() {
-        printAllTransactions();
+        getAllTransactionsAsTable();
         Transaction t = takeInputTransactionID("||| Enter Transaction ID to modify");
         String[][] data = {{t.getFrom().getAccountName(),t.getTo().getAccountName(),
                 String.valueOf(t.getAmount()),t.getTitle(),
                 t.getDate().toString(),t.getDesc()}};
         pause(stringTable(data));
         int selected = takeInputIntegerRange("||| What do you want to modify?\n 1) From\n 2) To\n"
-                + " 3) Amount\n 4) Title\n 5) Date\n 6) Description\n", 1,6);
+                + " 3) Amount\n 4) Title\n 5) Date\n 6) Description", 6);
         if (selected != -1) {
             modifyTransactionMenuHandleInput(selected, t);
         }
     }
 
-    // EFFECTS: Prints all transactions in the app
-    private void printAllTransactions() {
+    // EFFECTS: Returns a (string)table for all transactions
+    private void getAllTransactionsAsTable() {
         System.out.println("||| List of all transactions with ID");
         String[] header = {"ID","From","To","amount","title","date","description"};
         Transaction t;
@@ -160,11 +155,13 @@ public class FinTrack {
         switch (selected) {
             case 1: // modify from
                 Account from = takeInputAccount("||| Enter new credit Account");
-                transaction.setFrom(from);
+                transactionNewFrom(transaction, from);
+                //transaction.setFrom(from);
                 break;
             case 2: // modify to
                 Account to = takeInputAccount("||| Enter new debit Account");
-                transaction.setTo(to);
+//                transaction.setTo(to);
+                transactionNewTo(transaction, to);
                 break;
             case 3: // modify amount
                 int amt = takeInputNatural("||| Enter new transaction Amount");
@@ -186,10 +183,27 @@ public class FinTrack {
         pause("|||-> Modified Transaction");
     }
 
+
+    // MODIFIES: user, transaction
+    // EFFECTS: changes the transaction's credit(from) account
+    private void transactionNewTo(Transaction transaction, Account to) {
+        transaction.getTo().deleteTransaction(transaction);
+        transaction.setTo(to);
+        to.addTransaction(transaction);
+    }
+
+    // MODIFIES: user, transaction
+    // EFFECTS: changes the transaction's credit(from) account
+    private void transactionNewFrom(Transaction transaction, Account from) {
+        transaction.getFrom().deleteTransaction(transaction);
+        transaction.setFrom(from);
+        from.addTransaction(transaction);
+    }
+
     // EFFECTS: Takes user input to delete transaction from appropriate places by ID
     private void deleteTransactionMenu() {
         System.out.println("||| Delete Transaction");
-        printAllTransactions();
+        getAllTransactionsAsTable();
         Transaction t = takeInputTransactionID("||| Enter Transaction ID to delete");
         boolean shouldDelete = takeInputYesNo("||| Are you sure that you want to delete the transaction?",
                 "||| Deleting transaction with ID: " + t.getTransactionID());
@@ -200,9 +214,9 @@ public class FinTrack {
         }
     }
 
+    // MODIFIES: user, transaction
     // EFFECTS: deletes transaction from all appropriate places
     private void deleteTransaction(Transaction t) {
-        // maybe redo this method
         if (!user.removeTransaction(t)) {
             pause("|||-> **Transaction not found <transaction list>**");
         }
@@ -216,7 +230,8 @@ public class FinTrack {
 
     // EFFECTS: takes user input for Account Menu(2)
     private void handleMenu2() {
-        int selected = takeInputIntegerRange(menu2,1,4);
+        String menu2 = "||Account\n|| 1) Add new\n|| 2) Modify\n|| 3) Delete\n|| 4) [Back] Main Menu";
+        int selected = takeInputIntegerRange(menu2, 4);
         switch (selected) {
             case 1: // create new account
                 pause("||-> Selected Create new account");
@@ -239,7 +254,7 @@ public class FinTrack {
     // EFFECTS: takes input from user to create new account
     private void createNewAccountMenu() {
         int select = takeInputIntegerRange("||| Account Types\n||| 1) Income\n||| 2) Accumulator\n||| 3) Expense\n"
-                        + "||| 4) Loan", 1,4);
+                        + "||| 4) Loan", 4);
         String accountName;
         while (true) {
             System.out.print("||| Enter Account name: ");
@@ -282,7 +297,7 @@ public class FinTrack {
     // EFFECTS: takes user input to modify account details and modifies the account
     private void modifyAccountMenu() {
         Account acc = takeInputAccount("||| Enter Account Name");
-        int selected = takeInputIntegerRange("||| Modify Account's \n||| 1) name \n||| 2) description", 1,2);
+        int selected = takeInputIntegerRange("||| Modify Account's \n||| 1) name \n||| 2) description", 2);
         switch (selected) {
             case 1: // modify Name
                 String name = takeInputString("||| Enter new name");
@@ -320,14 +335,12 @@ public class FinTrack {
         for (int i = 0; i < transactions.size(); ) {
             deleteTransaction(transactions.get(i));
         }
-//        for (Transaction t: transactions) {
-//            deleteTransaction(t);
-//        }
     }
 
     // EFFECTS: Displays summary menu and takes user input for correct action
     private void handleMenu3() {
-        int selected = takeInputIntegerRange(menu3,1,3);
+        String menu3 = "||Summary\n|| 1) Individual Account\n|| 2) All Account\n|| 3) [Back] Main Menu";
+        int selected = takeInputIntegerRange(menu3, 3);
         switch (selected) {
             case 1: // individual account summary
                 pause("|| Selected individual account summary");
@@ -379,7 +392,7 @@ public class FinTrack {
     // EFFECTS: Returns table summarizing a list of single type of accounts
     private String summarizeAccountType(ArrayList<Account> accountType) {
         int total = 0;
-        String stringAccountType = "";
+        String stringAccountType;
         try {
             stringAccountType = accountType.get(0).getAccountType();
         } catch (IndexOutOfBoundsException e) {
@@ -490,17 +503,17 @@ public class FinTrack {
     // !!! remove -1 functionality
     // EFFECTS: Attempts to take input repeatedly until correct data is received,
     //          user may enter -1 to exit (which should be handled in the calling function)
-    private int takeInputIntegerRange(String textToDisplay,int lowerInclusive, int upperInclusive) {
+    private int takeInputIntegerRange(String textToDisplay, int upperInc) {
         int selected;
         while (true) {
-            System.out.println(textToDisplay + "\n -1 to go back");
+            System.out.print(textToDisplay + "\n(-1 to Main menu) :");
             command = input.next().toLowerCase();
             try {
                 selected = Integer.parseInt(command);
                 if (selected == -1) {
                     return -1;
                 }
-                if (lowerInclusive <= selected && selected <= upperInclusive) {
+                if (1 <= selected && selected <= upperInc) {
                     pause("Valid input " + selected + " received");
                     return selected;
                 } else {
@@ -508,7 +521,7 @@ public class FinTrack {
                 }
             } catch (Exception e) {
                 System.out.println("Invalid input: please enter a valid number in range ["
-                        + lowerInclusive + "," + upperInclusive + "]");
+                        + 1 + "," + upperInc + "]");
             }
         }
     }

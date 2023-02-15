@@ -7,21 +7,21 @@ import java.time.LocalDate;
 public class ExampleData {
 
     User user;
-    Integer transactionCount;
+    int transactionCount;
 
     public ExampleData() {}
 
     // MODIFIES: user
-    public void setData(User userToInitialize,Integer transactionCount) {
+    public int setData(User userToInitialize,int transactionCount) {
         this.user = userToInitialize;
         this.transactionCount = transactionCount;
-        initData();
+        return initData();
     }
 
     // MODIFIES: user
     // EFFECTS: inputs some example data for user
     @SuppressWarnings("methodlength")
-    private void initData() {
+    private int initData() {
         Account cash = new Accumulator("CASH","Record of all cash exchanges");
         Account checking = new Accumulator("BMO-CHECKING","BMO checking account *9482");
         Account saving = new Accumulator("BMO-SAVING","BMO savings account *3926");
@@ -93,5 +93,7 @@ public class ExampleData {
                 LocalDate.parse("2023-01-16"),"Starbucks","had starbucks on my way to park");
         user.addTransactionComplete(t11);
         transactionCount++;
+        transactionCount++;
+        return transactionCount;
     }
 }
