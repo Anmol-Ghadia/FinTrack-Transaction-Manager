@@ -190,6 +190,18 @@ public class UserTest {
     }
 
     @Test
+    public void userTestAddTransactionComplete() {
+        user1.addAccumulator(acc1);
+        user1.addIncome(inc1);
+        assertEquals(0,user1.getAccumulator().get(0).getTransaction().size());
+        assertEquals(0,user1.getIncome().get(0).getTransaction().size());
+        user1.addTransactionComplete(t1);
+        assertEquals(t1,inc1.getTransaction(0));
+        assertEquals(t1,acc1.getTransaction(0));
+        assertEquals(t1,user1.getTransactionList().get(0));
+    }
+
+    @Test
     public void userTestRemoveAccumulator() {
         assertEquals(0,user1.getAccumulator().size());
         user1.addAccumulator(acc1);
@@ -239,5 +251,12 @@ public class UserTest {
         assertEquals(1,user1.getLoan().size());
         user1.removeLoan(lon2);
         assertEquals(0,user1.getLoan().size());
+    }
+
+    @Test
+    public void userTestRemoveTransaction() {
+        user1.addTransaction(t1);
+        assertTrue(user1.removeTransaction(t1));
+        assertFalse(user1.removeTransaction(t1));
     }
 }

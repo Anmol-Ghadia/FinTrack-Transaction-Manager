@@ -82,6 +82,14 @@ public class User {
     }
 
     // MODIFIES: this
+    // EFFECTS: adds transaction to the user's transaction list, with from and to accounts
+    public void addTransactionComplete(Transaction t) {
+        t.getFrom().addTransaction(t);
+        t.getTo().addTransaction(t);
+        transactionList.add(t);
+    }
+
+    // MODIFIES: this
     // EFFECTS: returns true if accumulator account is removed from user
     public boolean removeAccumulator(Account acc) {
         return accumulator.remove(acc);
@@ -114,22 +122,22 @@ public class User {
     // EFFECTS: finds am account with given name, returns a reference to the object
     public Account findAccountFromString(String accountName) throws AccountNotFoundException {
         for (Account acc: getAccumulator()) {
-            if (acc.getAccountName().toUpperCase().equals(accountName.toUpperCase())) {
+            if (acc.getAccountName().equalsIgnoreCase(accountName)) {
                 return acc;
             }
         }
         for (Account acc: getExpense()) {
-            if (acc.getAccountName().toUpperCase().equals(accountName.toUpperCase())) {
+            if (acc.getAccountName().equalsIgnoreCase(accountName)) {
                 return acc;
             }
         }
         for (Account acc: getIncome()) {
-            if (acc.getAccountName().toUpperCase().equals(accountName.toUpperCase())) {
+            if (acc.getAccountName().equalsIgnoreCase(accountName)) {
                 return acc;
             }
         }
         for (Account acc: getLoan()) {
-            if (acc.getAccountName().toUpperCase().equals(accountName.toUpperCase())) {
+            if (acc.getAccountName().equalsIgnoreCase(accountName)) {
                 return acc;
             }
         }

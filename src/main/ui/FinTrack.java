@@ -13,7 +13,7 @@ public class FinTrack {
     User user;
     private Scanner input;
     private boolean appRunning;
-    private int transactionCount;
+    private Integer transactionCount;
     String command;
     private final String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n| 4) quit";
     private final String menu1 = "||Transaction\n|| 1) Create\n|| 2) Modify\n|| 3) Delete\n|| 4) [Back] Main Menu";
@@ -44,15 +44,8 @@ public class FinTrack {
         command = null;
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        setInitialData();
-    }
-
-    // EFFECTS: sets some initial data as an example
-    private void setInitialData() {
-        Account acc1 = new Accumulator("SAVINGS","CIBC");
-        user.addAccumulator(acc1);
-        Account travel = new Expense("TRAVEL","traveling costs");
-        user.addExpense(travel);
+        ExampleData ed = new ExampleData();
+        ed.setData(user,transactionCount);
     }
 
     // EFFECTS: Displays and takes user input for Main menu(0)
@@ -249,12 +242,12 @@ public class FinTrack {
                         + "||| 4) Loan", 1,4);
         String accountName;
         while (true) {
-            System.out.println("||| Enter Account name");
-            accountName = input.next().toLowerCase();
+            System.out.print("||| Enter Account name: ");
+            accountName = input.next().toUpperCase();
             try {
                 user.findAccountFromString(accountName);
+                pause("|||-> **Enter a unique Account name(Account name already exists)**\n Try again");
             } catch (AccountNotFoundException e) {
-                pause("|||-> **Enter a unique Account name(Account name already exists)**");
                 break;
             }
         }
@@ -324,9 +317,12 @@ public class FinTrack {
 
     // EFFECTS: deletes all the transactions from everywhere
     private void deleteTransactions(ArrayList<Transaction> transactions) {
-        for (Transaction t: transactions) {
-            deleteTransaction(t);
+        for (int i = 0; i < transactions.size(); ) {
+            deleteTransaction(transactions.get(i));
         }
+//        for (Transaction t: transactions) {
+//            deleteTransaction(t);
+//        }
     }
 
     // EFFECTS: Displays summary menu and takes user input for correct action
@@ -350,7 +346,7 @@ public class FinTrack {
     // EFFECTS: takes user input to decide and display summary of individual account
     private void individualAccountSummaryMenu() {
         Account selectedAccount = selectExistingAccount();
-        System.out.print("Summary of " + selectedAccount.getAccountName()
+        System.out.println("Summary of " + selectedAccount.getAccountName()
                 + "<" + selectedAccount.getAccountType() + ">");
         ArrayList<Transaction> transactions = selectedAccount.getTransaction();
         String[][] data = new String[transactions.size()][6];
@@ -410,7 +406,7 @@ public class FinTrack {
     // EFFECTS: Submenu for displaying all accounts and getting a valid account name from user
     private Account selectExistingAccount() {
         while (true) {
-            System.out.println("||| List of all accounts\n ||| Income:");
+            System.out.println("||| List of all accounts\n||| Income:");
             selectExistingAccountHelper(user.getIncome());
             System.out.println("||| Expense:");
             selectExistingAccountHelper(user.getExpense());
@@ -422,7 +418,7 @@ public class FinTrack {
             try {
                 return user.findAccountFromString(command);
             } catch (AccountNotFoundException e) {
-                System.out.println("|||-> Invalid Account Name(Account does not exist)");
+                pause("|||-> Invalid Account Name(Account does not exist)");
             }
         }
     }
@@ -511,7 +507,7 @@ public class FinTrack {
                     throw new Exception();
                 }
             } catch (Exception e) {
-                System.out.println("Invalid input: please enter a valid number in range"
+                System.out.println("Invalid input: please enter a valid number in range ["
                         + lowerInclusive + "," + upperInclusive + "]");
             }
         }
@@ -541,8 +537,9 @@ public class FinTrack {
             System.out.print(textToDisplay + ": ");
             command = input.next().toLowerCase();
             try {
+                Account a = user.findAccountFromString(command);
                 pause("Account found");
-                return user.findAccountFromString(command);
+                return a;
             } catch (AccountNotFoundException e) {
                 pause("Invalid Account Name(Account does not exist)");
             }
@@ -566,7 +563,7 @@ public class FinTrack {
     }
 
     private String stringTable(String[][] data) {
-        String[] headers = {"from","to","amount","title","date","Description"};
+        String[] headers = {"From","To","Amount","Title","Date","Description"};
         return AsciiTable.getTable(headers,data);
     }
 }
