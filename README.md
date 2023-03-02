@@ -21,7 +21,8 @@ The motivation for this project comes from the personal experience of managing f
 * As a user, I want to be able to **view** a list of all my **accounts** with summary, so that I can see where my money is going.
 * As a user, I want to be able to **edit** or **delete** a **transaction** so that I can correct any mistakes or make changes.
 * As a user, I want to be able to **edit** or **delete** an **Account** so that I can correct any mistakes or make changes.
-
+* As a user, I want to be able to **save** all my accounts and transactions(if I so choose).
+* As a user, I want to be able to **load** all my accounts and transactions(if I so choose).
 
 ### Links:
 [GitHub-Source](https://github.students.cs.ubc.ca/CPSC210-2022W-T2/project_y6y5s)
