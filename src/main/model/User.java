@@ -203,7 +203,7 @@ public class User {
             case "expense":
                 out = new Expense(accName);
                 break;
-            case "loan":
+            default:
                 out = new Loan(accName);
                 break;
         }
