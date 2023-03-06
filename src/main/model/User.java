@@ -215,19 +215,14 @@ public class User {
         for (int i = 0; i < transactions.length(); i++) {
             transactionObject = transactions.getJSONObject(i);
             int id = transactionObject.getInt("id");
-            try {
-                Account from = findAccountFromString(transactionObject.getString("from"));
-                Account to = findAccountFromString(transactionObject.getString("to"));
-                int amount = transactionObject.getInt("amount");
-                LocalDate date = LocalDate.parse(transactionObject.getString("date"));
-                String title = transactionObject.getString("title");
-                String desc = transactionObject.getString("desc");
-                Transaction t = new Transaction(id,from,to,amount,date,title,desc);
-                transactionList.add(t);
-            } catch (Exception e) {
-                System.out.println("SaveData Corrupted");
-                break;
-            }
+            Account from = findAccountFromString(transactionObject.getString("from"));
+            Account to = findAccountFromString(transactionObject.getString("to"));
+            int amount = transactionObject.getInt("amount");
+            LocalDate date = LocalDate.parse(transactionObject.getString("date"));
+            String title = transactionObject.getString("title");
+            String desc = transactionObject.getString("desc");
+            Transaction t = new Transaction(id,from,to,amount,date,title,desc);
+            transactionList.add(t);
         }
         return transactionList;
     }
