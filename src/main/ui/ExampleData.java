@@ -79,7 +79,7 @@ public class ExampleData {
         club = new Loan("XYZ-CLUB", "As an exec at the club, I usually pay for expenses "
                 + "and then I get reimbursed for the expense");
         user.addLoan(bob);
-        user.addLoan(clothing);
+        user.addLoan(club);
     }
 
     // MODIFIES: user

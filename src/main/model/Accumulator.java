@@ -15,4 +15,16 @@ public class Accumulator extends Account {
         this.accountDesc = accountDesc;
         this.transactions = new ArrayList<>();
     }
+
+    public Accumulator(String accountName) {
+        this.accountType = "ACCUMULATOR";
+        this.accountName = accountName.toUpperCase();
+    }
+
+//    public Accumulator(String accountName, String accountDesc,ArrayList<Transaction> transactions) {
+//        this.accountType = "ACCUMULATOR";
+//        this.accountName = accountName.toUpperCase();
+//        this.accountDesc = accountDesc;
+//        this.transactions = transactions;
+//    }
 }

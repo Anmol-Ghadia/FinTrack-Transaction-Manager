@@ -28,5 +28,6 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="ascii-table-1.8.0" level="project" />
+    <orderEntry type="library" name="json-20210307" level="project" />
   </component>
 </module>

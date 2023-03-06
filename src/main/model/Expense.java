@@ -14,4 +14,16 @@ public class Expense extends Account {
         this.accountDesc = accountDesc;
         this.transactions = new ArrayList<>();
     }
+
+    public Expense(String accountName) {
+        this.accountType = "EXPENSE";
+        this.accountName = accountName.toUpperCase();
+    }
+
+//    public Expense(String accountName, String accountDesc,ArrayList<Transaction> transactions) {
+//        this.accountType = "EXPENSE";
+//        this.accountName = accountName.toUpperCase();
+//        this.accountDesc = accountDesc;
+//        this.transactions = transactions;
+//    }
 }

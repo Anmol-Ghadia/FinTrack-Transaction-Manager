@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /*
@@ -110,5 +113,29 @@ public abstract class Account {
     // EFFECTS: changes the account description to desc
     public void setDesc(String desc) {
         this.accountDesc = desc;
+    }
+
+    // EFFECTS: returns the account as a JSON Object
+    public JSONObject toJson() {
+        JSONObject out = new JSONObject();
+        out.put("name",accountName);
+        out.put("desc",accountDesc);
+        out.put("transactions",transactionToJsonArray());
+        return out;
+    }
+
+    // EFFECTS: returns all the transactions as a JSON Array
+    public JSONArray transactionToJsonArray() {
+        JSONArray out = new JSONArray();
+
+        for (Transaction t: transactions) {
+            out.put(t.toJson());
+        }
+
+        return out;
+    }
+
+    public void setTransactions(ArrayList<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }

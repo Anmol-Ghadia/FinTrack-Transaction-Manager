@@ -15,4 +15,16 @@ public class Income extends Account {
         this.accountDesc = accountDesc;
         this.transactions = new ArrayList<>();
     }
+
+    public Income(String accountName) {
+        this.accountType = "INCOME";
+        this.accountName = accountName.toUpperCase();
+    }
+
+//    public Income(String accountName, String accountDesc,ArrayList<Transaction> transactions) {
+//        this.accountType = "INCOME";
+//        this.accountName = accountName.toUpperCase();
+//        this.accountDesc = accountDesc;
+//        this.transactions = transactions;
+//    }
 }

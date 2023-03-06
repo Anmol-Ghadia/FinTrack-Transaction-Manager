@@ -3,7 +3,11 @@ package ui;
 import exceptions.AccountNotFoundException;
 import com.github.freva.asciitable.AsciiTable;
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -26,7 +30,7 @@ public class FinTrack {
     private void runConsoleApp() {
         init();
         do {
-            String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n| 4) quit";
+            String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n| 4) Save State \n| 5) Load State \n| 6) quit";
             System.out.println(menu0);
             command = input.next().toLowerCase();
         } while (handleMenu0());
@@ -39,7 +43,7 @@ public class FinTrack {
         command = null;
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        ExampleData ed = new ExampleData(user,transactionCount);
+        ExampleData ed = new ExampleData(user, transactionCount);
         transactionCount = ed.getTransactionCount();
     }
 
@@ -59,7 +63,15 @@ public class FinTrack {
                 pause("|-> Selected Summary");
                 handleMenu3();
                 break;
-            case "4": // end of app
+            case "4": // save state
+                pause("|-> Selected Save State");
+                saveUser();
+                break;
+            case "5": // load state
+                pause("|-> Selected Load State");
+                loadUser();
+                break;
+            case "6": // end of app
                 pause("|-> Exiting :(");
                 return false;
             default: // incorrect input
@@ -100,7 +112,7 @@ public class FinTrack {
         LocalDate date = takeInputDate("||| Enter date of transaction");
         String title = takeInputString("||| Enter title of transaction");
         String desc = takeInputString("||| Enter description of transaction");
-        String[][] data = {{from.getAccountName(),to.getAccountName(),String.valueOf(amt),title,date.toString(),desc}};
+        String[][] data = {{from.getAccountName(), to.getAccountName(), String.valueOf(amt), title, date.toString(), desc}};
         System.out.println(stringTable(data));
         boolean add = takeInputYesNo("|||-> Do you want to add the above transaction?", "|||-> Adding Transaction");
         if (add) {
@@ -119,9 +131,9 @@ public class FinTrack {
     private void modifyTransactionMenu() {
         getAllTransactionsAsTable();
         Transaction t = takeInputTransactionID("||| Enter Transaction ID to modify");
-        String[][] data = {{t.getFrom().getAccountName(),t.getTo().getAccountName(),
-                String.valueOf(t.getAmount()),t.getTitle(),
-                t.getDate().toString(),t.getDesc()}};
+        String[][] data = {{t.getFrom().getAccountName(), t.getTo().getAccountName(),
+                String.valueOf(t.getAmount()), t.getTitle(),
+                t.getDate().toString(), t.getDesc()}};
         pause(stringTable(data));
         int selected = takeInputIntegerRange("||| What do you want to modify?\n 1) From\n 2) To\n"
                 + " 3) Amount\n 4) Title\n 5) Date\n 6) Description", 6);
@@ -133,7 +145,7 @@ public class FinTrack {
     // EFFECTS: Returns a (string)table for all transactions
     private void getAllTransactionsAsTable() {
         System.out.println("||| List of all transactions with ID");
-        String[] header = {"ID","From","To","amount","title","date","description"};
+        String[] header = {"ID", "From", "To", "amount", "title", "date", "description"};
         Transaction t;
         String[][] data = new String[user.getTransactionList().size()][7];
         for (int i = 0; i < user.getTransactionList().size(); i++) {
@@ -148,7 +160,7 @@ public class FinTrack {
             row[6] = t.getDesc();
             data[i] = row;
         }
-        pause(AsciiTable.getTable(header,data));
+        pause(AsciiTable.getTable(header, data));
     }
 
     // EFFECTS: Handles input for modify transaction menu
@@ -251,7 +263,7 @@ public class FinTrack {
     // EFFECTS: takes input from user to create new account
     private void createNewAccountMenu() {
         int select = takeInputIntegerRange("||| Account Types\n||| 1) Income\n||| 2) Accumulator\n||| 3) Expense\n"
-                        + "||| 4) Loan", 4);
+                + "||| 4) Loan", 4);
         String accountName;
         while (true) {
             System.out.print("||| Enter Account name: ");
@@ -264,27 +276,27 @@ public class FinTrack {
             }
         }
         String desc = takeInputString("||| Enter Description for the Account");
-        createNewAccountMenuHandleMenu(select, accountName,desc);
+        createNewAccountMenuHandleMenu(select, accountName, desc);
     }
 
     // EFFECTS: Handles input for create account menu
-    private void createNewAccountMenuHandleMenu(int select,String accountName, String desc) {
+    private void createNewAccountMenuHandleMenu(int select, String accountName, String desc) {
         Account newAccount;
         switch (select) {
             case 1:
-                newAccount = new Income(accountName.toUpperCase(),desc);
+                newAccount = new Income(accountName.toUpperCase(), desc);
                 user.addIncome(newAccount);
                 break;
             case 2:
-                newAccount = new Accumulator(accountName.toUpperCase(),desc);
+                newAccount = new Accumulator(accountName.toUpperCase(), desc);
                 user.addAccumulator(newAccount);
                 break;
             case 3:
-                newAccount = new Expense(accountName.toUpperCase(),desc);
+                newAccount = new Expense(accountName.toUpperCase(), desc);
                 user.addExpense(newAccount);
                 break;
             case 4:
-                newAccount = new Loan(accountName.toUpperCase(),desc);
+                newAccount = new Loan(accountName.toUpperCase(), desc);
                 user.addLoan(newAccount);
                 break;
         }
@@ -410,7 +422,7 @@ public class FinTrack {
         finalRow[0] = "Total Balance";
         finalRow[1] = String.valueOf(total);
         data[accountType.size()] = finalRow;
-        return accountType.get(0).getAccountType() + "\n" + AsciiTable.getTable(header,data);
+        return accountType.get(0).getAccountType() + "\n" + AsciiTable.getTable(header, data);
     }
 
     // EFFECTS: Submenu for displaying all accounts and getting a valid account name from user
@@ -435,7 +447,7 @@ public class FinTrack {
 
     // EFFECTS: helper for select existing account to display accounts from given ArrayList
     private void selectExistingAccountHelper(ArrayList<Account> accountList) {
-        for (Account a: accountList) {
+        for (Account a : accountList) {
             System.out.println("|||   - " + a.getAccountName());
         }
     }
@@ -447,7 +459,7 @@ public class FinTrack {
             System.out.print(textToDisplay + ": ");
             command = input.next().toLowerCase();
             possibleID = Integer.parseInt(command);
-            for (Transaction t: user.getTransactionList()) {
+            for (Transaction t : user.getTransactionList()) {
                 if (possibleID == t.getTransactionID()) {
                     pause("Found ID: " + possibleID);
                     return t;
@@ -458,7 +470,7 @@ public class FinTrack {
     }
 
     // EFFECTS: repeatedly asks user for yes or no until correct input is provided
-    private boolean takeInputYesNo(String textToDisplay,String successMessage) {
+    private boolean takeInputYesNo(String textToDisplay, String successMessage) {
         while (true) {
             System.out.print(textToDisplay + " (y/n): ");
             command = input.next().toLowerCase();
@@ -573,7 +585,27 @@ public class FinTrack {
     }
 
     private String stringTable(String[][] data) {
-        String[] headers = {"From","To","Amount","Title","Date","Description"};
-        return AsciiTable.getTable(headers,data);
+        String[] headers = {"From", "To", "Amount", "Title", "Date", "Description"};
+        return AsciiTable.getTable(headers, data);
+    }
+
+    // EFFECTS: !!!
+    private void saveUser() {
+        try {
+            JsonWriter jsonWriter = new JsonWriter("./data/workroom.json");
+            jsonWriter.write(user);
+            pause("Saved data :)");
+        } catch (FileNotFoundException e) {
+            pause("Cannot write to file");
+        }
+    }
+
+    private void loadUser() {
+        try {
+            JsonReader jsonReader = new JsonReader("./data/workroom.json");
+            this.user = jsonReader.read();
+        } catch (IOException e) {
+            System.out.println("unable to read from file");
+        }
     }
 }

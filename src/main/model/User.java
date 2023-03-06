@@ -1,7 +1,10 @@
 package model;
 
 import exceptions.AccountNotFoundException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 /*
@@ -147,5 +150,162 @@ public class User {
             }
         }
         throw new AccountNotFoundException();
+    }
+
+    public User(JSONObject jsonObject) {
+        this.accumulator = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("acc-names"),"acc");
+        this.income = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("income-names"),"income");
+        this.expense = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("expense-names"),"expense");
+        this.loan = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("loan-names"),"loan");
+
+        this.accumulator = addTransactionsToAccounts(this.accumulator,jsonObject.getJSONArray("acc"));
+        this.income = addTransactionsToAccounts(this.income, jsonObject.getJSONArray("income"));
+        this.expense = addTransactionsToAccounts(this.expense, jsonObject.getJSONArray("expense"));
+        this.loan = addTransactionsToAccounts(this.loan, jsonObject.getJSONArray("loan"));
+
+        // select each account and add transactions
+//        this.accumulator = jsonToAccount(jsonObject.getJSONArray("acc"),"acc");
+//        this.income = jsonToAccount(jsonObject.getJSONArray("income"),"income");
+//        this.expense = jsonToAccount(jsonObject.getJSONArray("expense"),"expense");
+//        this.loan = jsonToAccount(jsonObject.getJSONArray("loan"),"loan");
+
+        this.transactionList = jsonToTransactionList(jsonObject.getJSONArray("transaction"));
+    }
+
+    private ArrayList<Account> addTransactionsToAccounts(ArrayList<Account> accountNames, JSONArray accounts) {
+        ArrayList<Account> finalAccountList = new ArrayList<>();
+        for (int i = 0; i < accounts.length(); i++) {
+            finalAccountList.add(jsonToAccount(accountNames.get(i),accounts.getJSONObject(i)));
+        }
+        return finalAccountList;
+    }
+
+    private ArrayList<Account> jsonToAccountWithoutTransactions(JSONArray jsonArray, String type) {
+        ArrayList<Account> accList = new ArrayList<>();
+        String accName;
+        for (int i = 0; i < jsonArray.length(); i++) {
+            accName = jsonArray.getString(i);
+            accList.add(jsonToSingleAccountWithoutTransactions(accName,type));
+        }
+        return  accList;
+    }
+
+    private Account jsonToSingleAccountWithoutTransactions(String accName, String type) {
+        Account out = null;
+        switch (type) {
+            case "acc":
+                out = new Accumulator(accName);
+                break;
+            case "income":
+                out = new Income(accName);
+                break;
+            case "expense":
+                out = new Expense(accName);
+                break;
+            case "loan":
+                out = new Loan(accName);
+                break;
+        }
+        return out;
+    }
+
+    private Account jsonToAccount(Account accountName, JSONObject jsonObject) {
+        accountName.setDesc(jsonObject.getString("desc"));
+        accountName.setTransactions(jsonToTransactionList(jsonObject.getJSONArray("transactions")));
+        return accountName;
+    }
+
+//    private Account jsonToSingleAccount(JSONObject acc,String type) {
+//        Account out = null;
+//        String name = acc.getString("name");
+//        String desc = acc.getString("desc");
+//        ArrayList<Transaction> transactions = jsonToTransactionList(acc.getJSONArray("transactions"));
+//        switch (type) {
+//            case "acc":
+//                out = new Accumulator(name,desc,transactions);
+//                break;
+//            case "income":
+//                out = new Income(name,desc,transactions);
+//                break;
+//            case "expense":
+//                out = new Expense(name,desc,transactions);
+//                break;
+//            case "loan":
+//                out = new Loan(name,desc,transactions);
+//                break;
+//        }
+//        return out;
+//    }
+
+    private ArrayList<Transaction> jsonToTransactionList(JSONArray transactions) {
+        ArrayList<Transaction> transactionList = new ArrayList<>();
+        JSONObject transactionObject;
+        for (int i = 0; i < transactions.length(); i++) {
+            transactionObject = transactions.getJSONObject(i);
+            int id = transactionObject.getInt("id");
+            try {
+                Account from = findAccountFromString(transactionObject.getString("from"));
+                Account to = findAccountFromString(transactionObject.getString("to"));
+                int amount = transactionObject.getInt("amount");
+                LocalDate date = LocalDate.parse(transactionObject.getString("date"));
+                String title = transactionObject.getString("title");
+                String desc = transactionObject.getString("desc");
+                Transaction t = new Transaction(id,from,to,amount,date,title,desc);
+                transactionList.add(t);
+            } catch (AccountNotFoundException e) {
+                System.out.println("ErrorFindingAccount");
+                break;
+            }
+        }
+        return transactionList;
+    }
+
+    //EFFECTS: returns the user data as a string in JSON format
+    public String toJsonString() {
+        JSONObject out = new JSONObject();
+
+        out.put("acc-names", accountNamesToJson(accumulator));
+        out.put("income-names", accountNamesToJson(income));
+        out.put("expense-names", accountNamesToJson(expense));
+        out.put("loan-names", accountNamesToJson(loan));
+        out.put("acc", accountToJson(accumulator));
+        out.put("income", accountToJson(income));
+        out.put("expense", accountToJson(expense));
+        out.put("loan", accountToJson(loan));
+
+//        out.put("acc", accountToJson(accumulator));
+//        out.put("income", accountToJson(income));
+//        out.put("expense", accountToJson(expense));
+//        out.put("loan", accountToJson(loan));
+
+        out.put("transaction", transactionToJson());
+        return out.toString(4);
+    }
+
+    private JSONArray accountNamesToJson(ArrayList<Account> accList) {
+        JSONArray out = new JSONArray();
+        for (Account acc: accList) {
+            out.put(acc.accountName);
+        }
+        return out;
+    }
+
+    private JSONArray accountToJson(ArrayList<Account> accList) {
+        JSONArray accJsonArray = new JSONArray();
+        for (Account acc: accList) {
+            accJsonArray.put(acc.toJson());
+        }
+        return accJsonArray;
+    }
+
+    // EFFECTS: returns all the transactions as a JSON Array
+    private JSONArray transactionToJson() {
+        JSONArray transactionJsonArray = new JSONArray();
+
+        for (Transaction t: transactionList) {
+            transactionJsonArray.put(t.toJson());
+        }
+
+        return transactionJsonArray;
     }
 }

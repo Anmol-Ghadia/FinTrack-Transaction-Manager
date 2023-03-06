@@ -1,5 +1,8 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.time.LocalDate;
 
 /*
@@ -116,5 +119,18 @@ public class Transaction {
     // EFFECTS: sets the new description for this transaction
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    // EFFECTS: returns the transaction as a JSON Object
+    public JSONObject toJson() {
+        JSONObject out = new JSONObject();
+        out.put("id",transactionID);
+        out.put("from",from.getAccountName());
+        out.put("to",to.getAccountName());
+        out.put("amount",amount);
+        out.put("date",date.toString()); // may cause errors when reading, make sure the format is readable
+        out.put("title",title);
+        out.put("desc",desc);
+        return out;
     }
 }
