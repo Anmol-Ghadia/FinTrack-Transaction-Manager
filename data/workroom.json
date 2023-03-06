@@ -1,0 +1,376 @@
+{
+    "acc": [
+        {
+            "name": "CASH",
+            "transactions": [
+                {
+                    "date": "2023-01-03",
+                    "amount": 18,
+                    "from": "CASH",
+                    "id": 3,
+                    "to": "TRAVEL",
+                    "title": "Uber",
+                    "desc": "Uber to get back home from Allison street"
+                },
+                {
+                    "date": "2023-01-02",
+                    "amount": 300,
+                    "from": "BMO-CHECKING",
+                    "id": 1,
+                    "to": "CASH",
+                    "title": "Withdrawn from checking",
+                    "desc": "Withdraw 300 from checking for general use"
+                }
+            ],
+            "desc": "Record of all cash exchanges"
+        },
+        {
+            "name": "BMO-CHECKING",
+            "transactions": [
+                {
+                    "date": "2023-01-16",
+                    "amount": 12,
+                    "from": "BMO-CHECKING",
+                    "id": 10,
+                    "to": "FOOD",
+                    "title": "Starbucks",
+                    "desc": "had starbucks on my way to park"
+                },
+                {
+                    "date": "2023-01-14",
+                    "amount": 34,
+                    "from": "XYZ-CLUB",
+                    "id": 8,
+                    "to": "BMO-CHECKING",
+                    "title": "Club Reimbursement",
+                    "desc": "club reimbursed for poster printing"
+                },
+                {
+                    "date": "2023-01-10",
+                    "amount": 34,
+                    "from": "BMO-CHECKING",
+                    "id": 7,
+                    "to": "XYZ-CLUB",
+                    "title": "Poster Print",
+                    "desc": "paid for club's day poster printing"
+                },
+                {
+                    "date": "2023-01-08",
+                    "amount": 89,
+                    "from": "BMO-CHECKING",
+                    "id": 6,
+                    "to": "BOB",
+                    "title": "Bob's watch",
+                    "desc": "Paid for Bob's watch purchase"
+                },
+                {
+                    "date": "2023-01-06",
+                    "amount": 45,
+                    "from": "BMO-CHECKING",
+                    "id": 5,
+                    "to": "MOBILE-PLAN",
+                    "title": "PrimaryMobileBill",
+                    "desc": "Mobile bill for December 2022"
+                },
+                {
+                    "date": "2023-01-05",
+                    "amount": 2000,
+                    "from": "BMO-CHECKING",
+                    "id": 4,
+                    "to": "BMO-SAVING",
+                    "title": "Transfer",
+                    "desc": "Transferred 2000 to savings for emergency"
+                },
+                {
+                    "date": "2023-01-03",
+                    "amount": 25,
+                    "from": "BMO-CHECKING",
+                    "id": 2,
+                    "to": "FOOD",
+                    "title": "ThaiRestaurant",
+                    "desc": "Lunch at Thai restaurant with friends"
+                },
+                {
+                    "date": "2023-01-02",
+                    "amount": 300,
+                    "from": "BMO-CHECKING",
+                    "id": 1,
+                    "to": "CASH",
+                    "title": "Withdrawn from checking",
+                    "desc": "Withdraw 300 from checking for general use"
+                },
+                {
+                    "date": "2022-12-31",
+                    "amount": 3500,
+                    "from": "JOB",
+                    "id": 0,
+                    "to": "BMO-CHECKING",
+                    "title": "Paycheck",
+                    "desc": "2022 December"
+                }
+            ],
+            "desc": "BMO checking account *9482"
+        },
+        {
+            "name": "BMO-SAVING",
+            "transactions": [
+                {
+                    "date": "2023-01-15",
+                    "amount": 50,
+                    "from": "BOB",
+                    "id": 9,
+                    "to": "BMO-SAVING",
+                    "title": "Bob loan payment partial",
+                    "desc": "paid partially for watch purchase"
+                },
+                {
+                    "date": "2023-01-05",
+                    "amount": 2000,
+                    "from": "BMO-CHECKING",
+                    "id": 4,
+                    "to": "BMO-SAVING",
+                    "title": "Transfer",
+                    "desc": "Transferred 2000 to savings for emergency"
+                }
+            ],
+            "desc": "BMO savings account *3926"
+        }
+    ],
+    "income": [{
+        "name": "JOB",
+        "transactions": [{
+            "date": "2022-12-31",
+            "amount": 3500,
+            "from": "JOB",
+            "id": 0,
+            "to": "BMO-CHECKING",
+            "title": "Paycheck",
+            "desc": "2022 December"
+        }],
+        "desc": "Income from job"
+    }],
+    "loan": [
+        {
+            "name": "BOB",
+            "transactions": [
+                {
+                    "date": "2023-01-15",
+                    "amount": 50,
+                    "from": "BOB",
+                    "id": 9,
+                    "to": "BMO-SAVING",
+                    "title": "Bob loan payment partial",
+                    "desc": "paid partially for watch purchase"
+                },
+                {
+                    "date": "2023-01-08",
+                    "amount": 89,
+                    "from": "BMO-CHECKING",
+                    "id": 6,
+                    "to": "BOB",
+                    "title": "Bob's watch",
+                    "desc": "Paid for Bob's watch purchase"
+                }
+            ],
+            "desc": "Bob is a good friend, I usually pay for him and then he pays me back later"
+        },
+        {
+            "name": "XYZ-CLUB",
+            "transactions": [
+                {
+                    "date": "2023-01-14",
+                    "amount": 34,
+                    "from": "XYZ-CLUB",
+                    "id": 8,
+                    "to": "BMO-CHECKING",
+                    "title": "Club Reimbursement",
+                    "desc": "club reimbursed for poster printing"
+                },
+                {
+                    "date": "2023-01-10",
+                    "amount": 34,
+                    "from": "BMO-CHECKING",
+                    "id": 7,
+                    "to": "XYZ-CLUB",
+                    "title": "Poster Print",
+                    "desc": "paid for club's day poster printing"
+                }
+            ],
+            "desc": "As an exec at the club, I usually pay for expenses and then I get reimbursed for the expense"
+        }
+    ],
+    "loan-names": [
+        "BOB",
+        "XYZ-CLUB"
+    ],
+    "expense-names": [
+        "FOOD",
+        "TRAVEL",
+        "CLOTHING",
+        "MOBILE-PLAN"
+    ],
+    "income-names": ["JOB"],
+    "expense": [
+        {
+            "name": "FOOD",
+            "transactions": [
+                {
+                    "date": "2023-01-16",
+                    "amount": 12,
+                    "from": "BMO-CHECKING",
+                    "id": 10,
+                    "to": "FOOD",
+                    "title": "Starbucks",
+                    "desc": "had starbucks on my way to park"
+                },
+                {
+                    "date": "2023-01-03",
+                    "amount": 25,
+                    "from": "BMO-CHECKING",
+                    "id": 2,
+                    "to": "FOOD",
+                    "title": "ThaiRestaurant",
+                    "desc": "Lunch at Thai restaurant with friends"
+                }
+            ],
+            "desc": "Groceries or Meals"
+        },
+        {
+            "name": "TRAVEL",
+            "transactions": [{
+                "date": "2023-01-03",
+                "amount": 18,
+                "from": "CASH",
+                "id": 3,
+                "to": "TRAVEL",
+                "title": "Uber",
+                "desc": "Uber to get back home from Allison street"
+            }],
+            "desc": "Any traveling expense"
+        },
+        {
+            "name": "CLOTHING",
+            "transactions": [],
+            "desc": "Transactions related to clothes"
+        },
+        {
+            "name": "MOBILE-PLAN",
+            "transactions": [{
+                "date": "2023-01-06",
+                "amount": 45,
+                "from": "BMO-CHECKING",
+                "id": 5,
+                "to": "MOBILE-PLAN",
+                "title": "PrimaryMobileBill",
+                "desc": "Mobile bill for December 2022"
+            }],
+            "desc": "Mobile bills"
+        }
+    ],
+    "acc-names": [
+        "CASH",
+        "BMO-CHECKING",
+        "BMO-SAVING"
+    ],
+    "transaction": [
+        {
+            "date": "2022-12-31",
+            "amount": 3500,
+            "from": "JOB",
+            "id": 0,
+            "to": "BMO-CHECKING",
+            "title": "Paycheck",
+            "desc": "2022 December"
+        },
+        {
+            "date": "2023-01-02",
+            "amount": 300,
+            "from": "BMO-CHECKING",
+            "id": 1,
+            "to": "CASH",
+            "title": "Withdrawn from checking",
+            "desc": "Withdraw 300 from checking for general use"
+        },
+        {
+            "date": "2023-01-03",
+            "amount": 25,
+            "from": "BMO-CHECKING",
+            "id": 2,
+            "to": "FOOD",
+            "title": "ThaiRestaurant",
+            "desc": "Lunch at Thai restaurant with friends"
+        },
+        {
+            "date": "2023-01-03",
+            "amount": 18,
+            "from": "CASH",
+            "id": 3,
+            "to": "TRAVEL",
+            "title": "Uber",
+            "desc": "Uber to get back home from Allison street"
+        },
+        {
+            "date": "2023-01-05",
+            "amount": 2000,
+            "from": "BMO-CHECKING",
+            "id": 4,
+            "to": "BMO-SAVING",
+            "title": "Transfer",
+            "desc": "Transferred 2000 to savings for emergency"
+        },
+        {
+            "date": "2023-01-06",
+            "amount": 45,
+            "from": "BMO-CHECKING",
+            "id": 5,
+            "to": "MOBILE-PLAN",
+            "title": "PrimaryMobileBill",
+            "desc": "Mobile bill for December 2022"
+        },
+        {
+            "date": "2023-01-08",
+            "amount": 89,
+            "from": "BMO-CHECKING",
+            "id": 6,
+            "to": "BOB",
+            "title": "Bob's watch",
+            "desc": "Paid for Bob's watch purchase"
+        },
+        {
+            "date": "2023-01-10",
+            "amount": 34,
+            "from": "BMO-CHECKING",
+            "id": 7,
+            "to": "XYZ-CLUB",
+            "title": "Poster Print",
+            "desc": "paid for club's day poster printing"
+        },
+        {
+            "date": "2023-01-14",
+            "amount": 34,
+            "from": "XYZ-CLUB",
+            "id": 8,
+            "to": "BMO-CHECKING",
+            "title": "Club Reimbursement",
+            "desc": "club reimbursed for poster printing"
+        },
+        {
+            "date": "2023-01-15",
+            "amount": 50,
+            "from": "BOB",
+            "id": 9,
+            "to": "BMO-SAVING",
+            "title": "Bob loan payment partial",
+            "desc": "paid partially for watch purchase"
+        },
+        {
+            "date": "2023-01-16",
+            "amount": 12,
+            "from": "BMO-CHECKING",
+            "id": 10,
+            "to": "FOOD",
+            "title": "Starbucks",
+            "desc": "had starbucks on my way to park"
+        }
+    ]
+}
