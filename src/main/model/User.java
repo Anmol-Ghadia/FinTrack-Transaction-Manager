@@ -18,12 +18,29 @@ public class User {
     private ArrayList<Account> loan;
     private ArrayList<Transaction> transactionList;
 
+    // EFFECTS: Creates a new user and initializes fields
     public User() {
         transactionList = new ArrayList<>();
         accumulator = new ArrayList<>();
         expense = new ArrayList<>();
         loan = new ArrayList<>();
         income = new ArrayList<>();
+    }
+
+    // REQUIRES: Json Object is of correct user specification
+    // EFFECTS: Creates a new user as specified by the Json Object supplied
+    public User(JSONObject jsonObject) {
+        this.accumulator = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("acc-names"),"acc");
+        this.income = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("income-names"),"income");
+        this.expense = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("expense-names"),"expense");
+        this.loan = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("loan-names"),"loan");
+
+        this.accumulator = addTransactionsToAccounts(this.accumulator,jsonObject.getJSONArray("acc"));
+        this.income = addTransactionsToAccounts(this.income, jsonObject.getJSONArray("income"));
+        this.expense = addTransactionsToAccounts(this.expense, jsonObject.getJSONArray("expense"));
+        this.loan = addTransactionsToAccounts(this.loan, jsonObject.getJSONArray("loan"));
+
+        this.transactionList = jsonToTransactionList(jsonObject.getJSONArray("transaction"));
     }
 
     // EFFECTS: returns the accumulator account ArrayList
@@ -99,26 +116,26 @@ public class User {
 
     // MODIFIES: this
     // EFFECTS: returns true if accumulator account is removed from user
-    public boolean removeAccumulator(Account acc) {
-        return accumulator.remove(acc);
+    public void removeAccumulator(Account acc) {
+        accumulator.remove(acc);
     }
 
     // MODIFIES: this
     // EFFECTS: returns true if income account is removed from user
-    public boolean removeIncome(Account acc) {
-        return  income.remove(acc);
+    public void removeIncome(Account acc) {
+        income.remove(acc);
     }
 
     // MODIFIES: this
     // EFFECTS: returns true if expense account is removed from user
-    public boolean removeExpense(Account acc) {
-        return expense.remove(acc);
+    public void removeExpense(Account acc) {
+        expense.remove(acc);
     }
 
     // MODIFIES: this
     // EFFECTS: returns true if loan account is removed from user
-    public boolean removeLoan(Account acc) {
-        return loan.remove(acc);
+    public void removeLoan(Account acc) {
+        loan.remove(acc);
     }
 
     // MODIFIES: this
@@ -127,7 +144,7 @@ public class User {
         return transactionList.remove(t);
     }
 
-    // EFFECTS: finds an account with the given name and returns it
+    // EFFECTS: finds an account with the given name and returns it, else throws AccountNotFoundException
     public Account findAccountFromString(String accountName) throws AccountNotFoundException {
         for (Account acc: getAccumulator()) {
             if (acc.getAccountName().equalsIgnoreCase(accountName)) {
@@ -152,20 +169,8 @@ public class User {
         throw new AccountNotFoundException();
     }
 
-    public User(JSONObject jsonObject) {
-        this.accumulator = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("acc-names"),"acc");
-        this.income = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("income-names"),"income");
-        this.expense = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("expense-names"),"expense");
-        this.loan = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("loan-names"),"loan");
-
-        this.accumulator = addTransactionsToAccounts(this.accumulator,jsonObject.getJSONArray("acc"));
-        this.income = addTransactionsToAccounts(this.income, jsonObject.getJSONArray("income"));
-        this.expense = addTransactionsToAccounts(this.expense, jsonObject.getJSONArray("expense"));
-        this.loan = addTransactionsToAccounts(this.loan, jsonObject.getJSONArray("loan"));
-
-        this.transactionList = jsonToTransactionList(jsonObject.getJSONArray("transaction"));
-    }
-
+    // REQUIRES: Json object is of correct transaction structure
+    // EFFECTS: adds JSON transactions to appropriate accounts
     private ArrayList<Account> addTransactionsToAccounts(ArrayList<Account> accountNames, JSONArray accounts) {
         ArrayList<Account> finalAccountList = new ArrayList<>();
         for (int i = 0; i < accounts.length(); i++) {
@@ -174,6 +179,7 @@ public class User {
         return finalAccountList;
     }
 
+    // EFFECTS: returns a list of account with names as given by json array
     private ArrayList<Account> jsonToAccountWithoutTransactions(JSONArray jsonArray, String type) {
         ArrayList<Account> accList = new ArrayList<>();
         String accName;
@@ -184,6 +190,7 @@ public class User {
         return  accList;
     }
 
+    // EFFECTS: returns a new account with given name and type
     private Account jsonToSingleAccountWithoutTransactions(String accName, String type) {
         Account out = null;
         switch (type) {
@@ -203,12 +210,16 @@ public class User {
         return out;
     }
 
-    private Account jsonToAccount(Account accountName, JSONObject jsonObject) {
-        accountName.setDesc(jsonObject.getString("desc"));
-        accountName.setTransactions(jsonToTransactionList(jsonObject.getJSONArray("transactions")));
-        return accountName;
+    // MODIFIES: account
+    // EFFECTS: Sets tha accounts description and transactions for given account based on the json object
+    private Account jsonToAccount(Account account, JSONObject jsonObject) {
+        account.setDesc(jsonObject.getString("desc"));
+        account.setTransactions(jsonToTransactionList(jsonObject.getJSONArray("transactions")));
+        return account;
     }
 
+    // REQUIRES: Json Array is of correct specification
+    // EFFECTS: Returns the transaction list from provided jsonArray
     private ArrayList<Transaction> jsonToTransactionList(JSONArray transactions) {
         ArrayList<Transaction> transactionList = new ArrayList<>();
         JSONObject transactionObject;
@@ -227,30 +238,36 @@ public class User {
         return transactionList;
     }
 
+
     //EFFECTS: returns the user data as a string in JSON format
     public String toJsonString() {
-        JSONObject out = new JSONObject();
+        JSONObject jsonString = new JSONObject();
 
-        out.put("acc-names", accountNamesToJson(accumulator));
-        out.put("income-names", accountNamesToJson(income));
-        out.put("expense-names", accountNamesToJson(expense));
-        out.put("loan-names", accountNamesToJson(loan));
-        out.put("acc", accountToJson(accumulator));
-        out.put("income", accountToJson(income));
-        out.put("expense", accountToJson(expense));
-        out.put("loan", accountToJson(loan));
-        out.put("transaction", transactionToJson());
-        return out.toString(4);
+        jsonString.put("acc-names", accountNamesToJson(accumulator));
+        jsonString.put("income-names", accountNamesToJson(income));
+        jsonString.put("expense-names", accountNamesToJson(expense));
+        jsonString.put("loan-names", accountNamesToJson(loan));
+
+        jsonString.put("acc", accountToJson(accumulator));
+        jsonString.put("income", accountToJson(income));
+        jsonString.put("expense", accountToJson(expense));
+        jsonString.put("loan", accountToJson(loan));
+
+        jsonString.put("transaction", transactionToJson());
+
+        return jsonString.toString(4);
     }
 
+    // EFFECTS: Returns a json array with account names
     private JSONArray accountNamesToJson(ArrayList<Account> accList) {
-        JSONArray out = new JSONArray();
+        JSONArray nameJsonArray = new JSONArray();
         for (Account acc: accList) {
-            out.put(acc.accountName);
+            nameJsonArray.put(acc.accountName);
         }
-        return out;
+        return nameJsonArray;
     }
 
+    // EFFECTS: returns a json array with accounts as json objects
     private JSONArray accountToJson(ArrayList<Account> accList) {
         JSONArray accJsonArray = new JSONArray();
         for (Account acc: accList) {
@@ -262,11 +279,9 @@ public class User {
     // EFFECTS: returns all the transactions as a JSON Array
     private JSONArray transactionToJson() {
         JSONArray transactionJsonArray = new JSONArray();
-
         for (Transaction t: transactionList) {
             transactionJsonArray.put(t.toJson());
         }
-
         return transactionJsonArray;
     }
 }

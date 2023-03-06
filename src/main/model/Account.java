@@ -11,7 +11,6 @@ import java.util.ArrayList;
 *        ( All tests related to this abstract class can be found in the AccumulatorTest which tests )
 *        (     the Accumulator concrete class which is a subclass of this abstract class            )
 */
-
 public abstract class Account {
 
     // Transactions are added from the front(index: 0)
@@ -36,8 +35,6 @@ public abstract class Account {
                 return t;
             }
         }
-        // should raise exception if not found
-        // can be implemented after C3
         return null;
     }
 
@@ -53,7 +50,7 @@ public abstract class Account {
         return getDebit() - getCredit();
     }
 
-    // EFFECTS: return the total of inflows into the account
+    // EFFECTS: return the total of inflows(debit) into the account
     public int getDebit() {
         int total = 0;
         for (Transaction t: transactions) {
@@ -64,7 +61,7 @@ public abstract class Account {
         return total;
     }
 
-    // EFFECTS: return the total of outflows from the account
+    // EFFECTS: return the total of outflows(credit) from the account
     public int getCredit() {
         int total = 0;
         for (Transaction t: transactions) {
@@ -83,7 +80,6 @@ public abstract class Account {
 
     // EFFECTS: returns the type of account
     public String getAccountType() {
-        // STUB
         return accountType;
     }
 
@@ -117,24 +113,24 @@ public abstract class Account {
 
     // EFFECTS: returns the account as a JSON Object
     public JSONObject toJson() {
-        JSONObject out = new JSONObject();
-        out.put("name",accountName);
-        out.put("desc",accountDesc);
-        out.put("transactions",transactionToJsonArray());
-        return out;
+        JSONObject jsonAccount = new JSONObject();
+        jsonAccount.put("name",accountName);
+        jsonAccount.put("desc",accountDesc);
+        jsonAccount.put("transactions",transactionToJsonArray());
+        return jsonAccount;
     }
 
-    // EFFECTS: returns all the transactions as a JSON Array
+    // EFFECTS: returns all the transactions in a JSON Array
     private JSONArray transactionToJsonArray() {
-        JSONArray out = new JSONArray();
-
+        JSONArray jsonTransactionArray = new JSONArray();
         for (Transaction t: transactions) {
-            out.put(t.toJson());
+            jsonTransactionArray.put(t.toJson());
         }
-
-        return out;
+        return jsonTransactionArray;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets a new set of transactions, Old transactions are removed
     public void setTransactions(ArrayList<Transaction> transactions) {
         this.transactions = transactions;
     }

@@ -143,12 +143,12 @@ public class AccumulatorTest {
     public void accumulatorToJSON() {
         JSONObject expect = new JSONObject();
         checking.addTransaction(t1);
-        JSONObject check = checking.toJson();
+        String check = checking.toJson().toString();
         expect.put("name",checking.getAccountName());
         expect.put("desc",checking.getAccountDesc());
         JSONArray transactionJsonArray = new JSONArray();
         transactionJsonArray.put(t1.toJson());
         expect.put("transactions",transactionJsonArray);
-        assertEquals(expect.toString(),checking.toJson().toString());
+        assertEquals(expect.toString(),check);
     }
 }

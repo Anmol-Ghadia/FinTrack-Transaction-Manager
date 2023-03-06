@@ -19,6 +19,7 @@ public class Transaction {
 
     // REQUIRES: to, from are valid accounts
     //           amount > 0, title is not empty
+    // EFFECTS: Creates a new transaction with given parameters
     public Transaction(int transactionID,
                        Account from, Account to,
                        int amount,
@@ -53,7 +54,7 @@ public class Transaction {
         return amount;
     }
 
-    // EFFECTS: returns the date
+    // EFFECTS: returns the date in LocalDate Format
     public LocalDate getDate() {
         return date;
     }
@@ -108,6 +109,7 @@ public class Transaction {
         this.date = date;
     }
 
+    // REQUIRES: title is not empty
     // MODIFIES: this
     // EFFECTS: sets the new title for this transaction
     public void setTitle(String title) {

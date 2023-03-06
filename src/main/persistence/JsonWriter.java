@@ -5,6 +5,9 @@ import model.User;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
+/*
+    Writer class for Writing User to JSON file
+*/
 public class JsonWriter {
     private String destination;
 
@@ -14,15 +17,14 @@ public class JsonWriter {
         this.destination = destination;
     }
 
-    // MODIFIES: this
-    // EFFECTS: creates new writer, writes user in JSON file and closes the file
+    // EFFECTS: writes the user in the file, throws FileNotFoundException if file is not found
     public void write(User user) throws FileNotFoundException {
         PrintWriter writer = new PrintWriter(destination);
         writer.print(user.toJsonString());
         writer.close();
     }
 
-    // EFFECTS: returns the destination of the json writer
+    // EFFECTS: returns the file path for the json writer
     public String getDestination() {
         return destination;
     }

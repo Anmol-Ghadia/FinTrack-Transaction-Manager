@@ -9,6 +9,8 @@ import java.util.ArrayList;
             - Cash at home
 */
 public class Accumulator extends Account {
+
+    // EFFECTS: Create a new Accumulator type account with given name and description
     public Accumulator(String accountName, String accountDesc) {
         this.accountType = "ACCUMULATOR";
         this.accountName = accountName.toUpperCase();
@@ -16,6 +18,7 @@ public class Accumulator extends Account {
         this.transactions = new ArrayList<>();
     }
 
+    // EFFECTS: Create a new Accumulator type account with given name
     public Accumulator(String accountName) {
         this.accountType = "ACCUMULATOR";
         this.accountName = accountName.toUpperCase();

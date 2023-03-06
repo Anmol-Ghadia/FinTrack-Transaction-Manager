@@ -23,11 +23,13 @@ public class FinTrack {
     String command;
     private final String saveFileLocation = "./data/userData.json";
 
+    // EFFECTS: runs the console app
     public FinTrack() {
         runConsoleApp();
     }
 
-    // EFFECTS: Initializes global variables, sets some initial data and starts the app
+    // MODIFIES: this
+    // EFFECTS: Initializes global variables
     private void runConsoleApp() {
         init();
         loadDefault();
@@ -39,6 +41,17 @@ public class FinTrack {
         } while (handleMenu0());
     }
 
+    // MODIFIES: this
+    // EFFECTS: Initializes global variables
+    private void init() {
+        user = new User();
+        command = null;
+        input = new Scanner(System.in);
+        input.useDelimiter("\n");
+    }
+
+    // MODIFIES: this.user
+    // EFFECTS: loads default data if user wants to
     private void loadDefault() {
         boolean defaultData = takeInputYesNo("Do you want to load default data?"
                 + " this is different from save data", "Loading Data");
@@ -48,15 +61,6 @@ public class FinTrack {
         } else {
             transactionCount = 0;
         }
-    }
-
-    // MODIFIES: user
-    // EFFECTS: Initializes global variables
-    private void init() {
-        user = new User();
-        command = null;
-        input = new Scanner(System.in);
-        input.useDelimiter("\n");
     }
 
     // EFFECTS: Displays and takes user input for Main menu(0)
@@ -591,12 +595,13 @@ public class FinTrack {
         }
     }
 
+    // returns a string formatted to look like table based on the transaction data
     private String stringTable(String[][] data) {
         String[] headers = {"From", "To", "Amount", "Title", "Date", "Description"};
         return AsciiTable.getTable(headers, data);
     }
 
-    // EFFECTS: !!!
+    // EFFECTS: Save the current user in a file
     private void saveUser() {
         try {
             JsonWriter jsonWriter = new JsonWriter(saveFileLocation);
@@ -607,6 +612,8 @@ public class FinTrack {
         }
     }
 
+    // MODIFIES: this.user
+    // EFFECTS: Load the user data saved in the file
     private void loadUser() {
         try {
             JsonReader jsonReader = new JsonReader(saveFileLocation);

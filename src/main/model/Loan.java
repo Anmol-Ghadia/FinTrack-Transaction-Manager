@@ -11,6 +11,7 @@ import java.util.ArrayList;
 */
 public class Loan extends Account {
 
+    // EFFECTS: creates a new loan account with given name and description
     public Loan(String accountName, String accountDesc) {
         this.accountType = "LOAN";
         this.accountName = accountName.toUpperCase();
@@ -18,6 +19,7 @@ public class Loan extends Account {
         this.transactions = new ArrayList<>();
     }
 
+    // EFFECTS: creates a new loan account with given name
     public Loan(String accountName) {
         this.accountType = "LOAN";
         this.accountName = accountName.toUpperCase();

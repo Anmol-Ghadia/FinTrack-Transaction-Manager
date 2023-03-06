@@ -9,6 +9,8 @@ import java.util.ArrayList;
         - Rent on property
 */
 public class Income extends Account {
+
+    // EFFECTS: Creates a new income account with given name and description
     public Income(String accountName, String accountDesc) {
         this.accountType = "INCOME";
         this.accountName = accountName.toUpperCase();
@@ -16,6 +18,7 @@ public class Income extends Account {
         this.transactions = new ArrayList<>();
     }
 
+    // EFFECTS: creates a new income account with given name
     public Income(String accountName) {
         this.accountType = "INCOME";
         this.accountName = accountName.toUpperCase();

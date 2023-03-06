@@ -8,6 +8,8 @@ import java.util.ArrayList;
             - food expenses
 */
 public class Expense extends Account {
+
+    // EFFECTS: Creates a new Expense account with given name and description
     public Expense(String accountName, String accountDesc) {
         this.accountType = "EXPENSE";
         this.accountName = accountName.toUpperCase();
@@ -15,6 +17,7 @@ public class Expense extends Account {
         this.transactions = new ArrayList<>();
     }
 
+    // EFFECTS: create a new expense account with given name
     public Expense(String accountName) {
         this.accountType = "EXPENSE";
         this.accountName = accountName.toUpperCase();
