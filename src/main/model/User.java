@@ -224,8 +224,8 @@ public class User {
                 String desc = transactionObject.getString("desc");
                 Transaction t = new Transaction(id,from,to,amount,date,title,desc);
                 transactionList.add(t);
-            } catch (AccountNotFoundException e) {
-                System.out.println("ErrorFindingAccount");
+            } catch (Exception e) {
+                System.out.println("SaveData Corrupted");
                 break;
             }
         }

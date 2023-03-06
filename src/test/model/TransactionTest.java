@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -65,5 +67,19 @@ public class TransactionTest {
     @Test
     public void transactionTestTemporary() {
         assertNull(checking.getTransactionByID(999));
+    }
+
+    @Test
+    public void transactionTestToJson() {
+        JSONObject expect = new JSONObject();
+        JSONObject check = t1.toJson();
+        expect.put("id",t1.getTransactionID());
+        expect.put("from",t1.getFrom().getAccountName());
+        expect.put("to",t1.getTo().getAccountName());
+        expect.put("amount",t1.getAmount());
+        expect.put("date",t1.getDate().toString()); // may cause errors when reading, make sure the format is readable
+        expect.put("title",t1.getTitle());
+        expect.put("desc",t1.getDesc());
+        assertEquals(expect.toString(),check.toString());
     }
 }

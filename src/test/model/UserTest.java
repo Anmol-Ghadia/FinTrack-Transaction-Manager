@@ -1,10 +1,13 @@
 package model;
 
 import exceptions.AccountNotFoundException;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -262,4 +265,52 @@ public class UserTest {
         assertTrue(user1.removeTransaction(t1));
         assertFalse(user1.removeTransaction(t1));
     }
+
+    @Test
+    public void userTestToJsonString() {
+        user1.addIncome(inc1);
+        user1.addAccumulator(acc1);
+        user1.addTransactionComplete(t1);
+        String check = user1.toJsonString();
+
+        JSONObject expect = new JSONObject();
+        JSONArray accNames = new JSONArray();
+        accNames.put(acc1.getAccountName());
+        expect.put("acc-names", accNames);
+        JSONArray incNames = new JSONArray();
+        incNames.put(inc1.getAccountName());
+        expect.put("income-names", incNames);
+        expect.put("expense-names", new JSONArray());
+        expect.put("loan-names", new JSONArray());
+        JSONArray accArray = new JSONArray();
+        accArray.put(acc1.toJson());
+        expect.put("acc", accArray);
+        JSONArray incArray = new JSONArray();
+        incArray.put(inc1.toJson());
+        expect.put("income", incArray);
+        expect.put("expense", new JSONArray());
+        expect.put("loan", new JSONArray());
+        JSONArray transArray = new JSONArray();
+        transArray.put(t1.toJson());
+        expect.put("transaction", transArray);
+
+        assertEquals(expect.toString(4),check);
+    }
+
+    @Test
+    public void userTestConstructorJSONObject() {
+        user1.addAccumulator(acc1);
+        user1.addIncome(inc1);
+        user1.addExpense(exp1);
+        user1.addLoan(lon1);
+        user1.addTransactionComplete(t1);
+        JSONObject userJSON = new JSONObject(user1.toJsonString());
+        User userExpect = new User(userJSON);
+        assertEquals(acc1.getAccountName(),userExpect.getAccumulator().get(0).getAccountName());
+        assertEquals(inc1.getAccountName(),userExpect.getIncome().get(0).getAccountName());
+        assertEquals(lon1.getAccountName(),userExpect.getLoan().get(0).getAccountName());
+        assertEquals(exp1.getAccountName(),userExpect.getExpense().get(0).getAccountName());
+        assertEquals(t1.getTitle(),userExpect.getTransactionList().get(0).getTitle());
+    }
+
 }

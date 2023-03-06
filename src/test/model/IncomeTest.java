@@ -20,4 +20,11 @@ public class IncomeTest {
     public void incomeTestAccountType() {
         assertEquals("INCOME",inc1.getAccountType());
     }
+
+    @Test
+    public void incomeConstructorName() {
+        Account acc = new Income("Job");
+        assertEquals("JOB",acc.getAccountName());
+        assertEquals("INCOME",acc.getAccountType());
+    }
 }

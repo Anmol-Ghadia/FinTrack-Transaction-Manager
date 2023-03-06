@@ -125,7 +125,7 @@ public abstract class Account {
     }
 
     // EFFECTS: returns all the transactions as a JSON Array
-    public JSONArray transactionToJsonArray() {
+    private JSONArray transactionToJsonArray() {
         JSONArray out = new JSONArray();
 
         for (Transaction t: transactions) {

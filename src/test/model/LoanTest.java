@@ -20,4 +20,11 @@ public class LoanTest {
     public void loanTestAccountType() {
         assertEquals("LOAN",loan1.getAccountType());
     }
+
+    @Test
+    public void loanConstructorName() {
+        Account acc = new Loan("Rick");
+        assertEquals("RICK",acc.getAccountName());
+        assertEquals("LOAN",acc.getAccountType());
+    }
 }

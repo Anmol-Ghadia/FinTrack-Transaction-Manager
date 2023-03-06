@@ -17,7 +17,14 @@ public class ExpenseTest {
     }
 
     @Test
-    public void incomeTestAccountType() {
+    public void expenseTestAccountType() {
         assertEquals("EXPENSE",exp1.getAccountType());
+    }
+
+    @Test
+    public void expenseConstructorName() {
+        Account acc = new Expense("stationary");
+        assertEquals("STATIONARY",acc.getAccountName());
+        assertEquals("EXPENSE",acc.getAccountType());
     }
 }

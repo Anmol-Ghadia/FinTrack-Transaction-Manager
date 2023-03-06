@@ -1,9 +1,12 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -115,5 +118,37 @@ public class AccumulatorTest {
         String newDesc = "this is a new placeholder description";
         checking.setDesc(newDesc);
         assertEquals(newDesc,checking.getAccountDesc());
+    }
+
+    @Test
+    public void accumulatorConstructorName() {
+        Account acc = new Accumulator("cash");
+        assertEquals("CASH",acc.getAccountName());
+        assertEquals("ACCUMULATOR",acc.getAccountType());
+    }
+
+    @Test
+    public void accumulatorSetTransactions() {
+        Account acc = new Accumulator("cash");
+        ArrayList<Transaction> transactions = new ArrayList<>();
+        transactions.add(t1);
+        transactions.add(t2);
+        acc.setTransactions(transactions);
+        assertEquals(transactions,acc.getTransaction());
+        assertEquals(t1,acc.getTransaction(0));
+        assertEquals(t2,acc.getTransaction(1));
+    }
+
+    @Test
+    public void accumulatorToJSON() {
+        JSONObject expect = new JSONObject();
+        checking.addTransaction(t1);
+        JSONObject check = checking.toJson();
+        expect.put("name",checking.getAccountName());
+        expect.put("desc",checking.getAccountDesc());
+        JSONArray transactionJsonArray = new JSONArray();
+        transactionJsonArray.put(t1.toJson());
+        expect.put("transactions",transactionJsonArray);
+        assertEquals(expect.toString(),checking.toJson().toString());
     }
 }
