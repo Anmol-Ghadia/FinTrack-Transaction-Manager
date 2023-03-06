@@ -1,9 +1,7 @@
 package persistence;
 
 import model.User;
-import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
@@ -19,7 +17,7 @@ public class JsonWriter {
     // MODIFIES: this
     // EFFECTS: creates new writer, writes user in JSON file and closes the file
     public void write(User user) throws FileNotFoundException {
-        PrintWriter writer = new PrintWriter(new File(destination));
+        PrintWriter writer = new PrintWriter(destination);
         writer.print(user.toJsonString());
         writer.close();
     }

@@ -163,12 +163,6 @@ public class User {
         this.expense = addTransactionsToAccounts(this.expense, jsonObject.getJSONArray("expense"));
         this.loan = addTransactionsToAccounts(this.loan, jsonObject.getJSONArray("loan"));
 
-        // select each account and add transactions
-//        this.accumulator = jsonToAccount(jsonObject.getJSONArray("acc"),"acc");
-//        this.income = jsonToAccount(jsonObject.getJSONArray("income"),"income");
-//        this.expense = jsonToAccount(jsonObject.getJSONArray("expense"),"expense");
-//        this.loan = jsonToAccount(jsonObject.getJSONArray("loan"),"loan");
-
         this.transactionList = jsonToTransactionList(jsonObject.getJSONArray("transaction"));
     }
 
@@ -215,28 +209,6 @@ public class User {
         return accountName;
     }
 
-//    private Account jsonToSingleAccount(JSONObject acc,String type) {
-//        Account out = null;
-//        String name = acc.getString("name");
-//        String desc = acc.getString("desc");
-//        ArrayList<Transaction> transactions = jsonToTransactionList(acc.getJSONArray("transactions"));
-//        switch (type) {
-//            case "acc":
-//                out = new Accumulator(name,desc,transactions);
-//                break;
-//            case "income":
-//                out = new Income(name,desc,transactions);
-//                break;
-//            case "expense":
-//                out = new Expense(name,desc,transactions);
-//                break;
-//            case "loan":
-//                out = new Loan(name,desc,transactions);
-//                break;
-//        }
-//        return out;
-//    }
-
     private ArrayList<Transaction> jsonToTransactionList(JSONArray transactions) {
         ArrayList<Transaction> transactionList = new ArrayList<>();
         JSONObject transactionObject;
@@ -272,12 +244,6 @@ public class User {
         out.put("income", accountToJson(income));
         out.put("expense", accountToJson(expense));
         out.put("loan", accountToJson(loan));
-
-//        out.put("acc", accountToJson(accumulator));
-//        out.put("income", accountToJson(income));
-//        out.put("expense", accountToJson(expense));
-//        out.put("loan", accountToJson(loan));
-
         out.put("transaction", transactionToJson());
         return out.toString(4);
     }

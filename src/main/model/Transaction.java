@@ -1,6 +1,5 @@
 package model;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
@@ -91,7 +90,7 @@ public class Transaction {
     }
 
     // MODIFIES: this
-    // EFFECTS: changes the to<account> of this transaction
+    // EFFECTS: changes the To<account> of this transaction
     public void setTo(Account to) {
         this.to = to;
     }

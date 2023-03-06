@@ -1,6 +1,5 @@
 package model;
 
-import exceptions.AccountNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -21,6 +21,7 @@ public class FinTrack {
     private Scanner input;
     private int transactionCount;
     String command;
+    private final String saveFileLocation = "./data/userData.json";
 
     public FinTrack() {
         runConsoleApp();
@@ -29,54 +30,58 @@ public class FinTrack {
     // EFFECTS: Initializes global variables, sets some initial data and starts the app
     private void runConsoleApp() {
         init();
+        loadDefault();
         do {
-            String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n| 4) Save State \n| 5) Load State \n| 6) quit";
+            String menu0 = "|Main menu\n| 1) Transaction\n| 2) Account\n| 3) Summary\n"
+                    + "| 4) Save State \n| 5) Load State \n| 6) quit";
             System.out.println(menu0);
             command = input.next().toLowerCase();
         } while (handleMenu0());
     }
 
+    private void loadDefault() {
+        boolean defaultData = takeInputYesNo("Do you want to load default data?"
+                + " this is different from save data", "Loading Data");
+        if (defaultData) {
+            ExampleData ed = new ExampleData(user, transactionCount);
+            transactionCount = ed.getTransactionCount();
+        } else {
+            transactionCount = 0;
+        }
+    }
+
     // MODIFIES: user
     // EFFECTS: Initializes global variables
-    public void init() {
+    private void init() {
         user = new User();
         command = null;
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        ExampleData ed = new ExampleData(user, transactionCount);
-        transactionCount = ed.getTransactionCount();
     }
 
     // EFFECTS: Displays and takes user input for Main menu(0)
     //          returns false to stop app, to continue: true
     private boolean handleMenu0() {
-        switch (command) {
-            case "1": // transaction operation
-                pause("|-> Selected Transaction");
-                handleMenu1();
-                break;
-            case "2": // account operation
-                pause("|-> Selected Account");
-                handleMenu2();
-                break;
-            case "3": // Account summary
-                pause("|-> Selected Summary");
-                handleMenu3();
-                break;
-            case "4": // save state
-                pause("|-> Selected Save State");
-                saveUser();
-                break;
-            case "5": // load state
-                pause("|-> Selected Load State");
-                loadUser();
-                break;
-            case "6": // end of app
-                pause("|-> Exiting :(");
-                return false;
-            default: // incorrect input
-                pause("|-> **Invalid Input**");
-                break;
+        if (command.equals("1")) {
+            pause("|-> Selected Transaction");
+            handleMenu1();
+        } else if (command.equals("2")) {
+            pause("|-> Selected Account");
+            handleMenu2();
+        } else if (command.equals("3")) {
+            pause("|-> Selected Summary");
+            handleMenu3();
+        } else if (command.equals("4")) {
+            pause("|-> Selected Save State");
+            saveUser();
+        } else if (command.equals("5")) {
+            pause("|-> Selected Load State");
+            loadUser();
+        } else if (command.equals("6")) {
+            pause("|-> Exiting :(");
+            return false;
+        } else {
+            pause("|-> **Invalid Input**");
         }
         return true;
     }
@@ -112,7 +117,9 @@ public class FinTrack {
         LocalDate date = takeInputDate("||| Enter date of transaction");
         String title = takeInputString("||| Enter title of transaction");
         String desc = takeInputString("||| Enter description of transaction");
-        String[][] data = {{from.getAccountName(), to.getAccountName(), String.valueOf(amt), title, date.toString(), desc}};
+        String[][] data = {{from.getAccountName(), to.getAccountName(),
+                String.valueOf(amt), title,
+                date.toString(), desc}};
         System.out.println(stringTable(data));
         boolean add = takeInputYesNo("|||-> Do you want to add the above transaction?", "|||-> Adding Transaction");
         if (add) {
@@ -592,7 +599,7 @@ public class FinTrack {
     // EFFECTS: !!!
     private void saveUser() {
         try {
-            JsonWriter jsonWriter = new JsonWriter("./data/workroom.json");
+            JsonWriter jsonWriter = new JsonWriter(saveFileLocation);
             jsonWriter.write(user);
             pause("Saved data :)");
         } catch (FileNotFoundException e) {
@@ -602,8 +609,9 @@ public class FinTrack {
 
     private void loadUser() {
         try {
-            JsonReader jsonReader = new JsonReader("./data/workroom.json");
+            JsonReader jsonReader = new JsonReader(saveFileLocation);
             this.user = jsonReader.read();
+            pause("Loaded data successfully :)");
         } catch (IOException e) {
             System.out.println("unable to read from file");
         }

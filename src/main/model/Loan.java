@@ -22,11 +22,4 @@ public class Loan extends Account {
         this.accountType = "LOAN";
         this.accountName = accountName.toUpperCase();
     }
-//
-//    public Loan(String accountName, String accountDesc,ArrayList<Transaction> transactions) {
-//        this.accountType = "LOAN";
-//        this.accountName = accountName.toUpperCase();
-//        this.accountDesc = accountDesc;
-//        this.transactions = transactions;
-//    }
 }

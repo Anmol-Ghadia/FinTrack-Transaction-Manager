@@ -20,11 +20,4 @@ public class Accumulator extends Account {
         this.accountType = "ACCUMULATOR";
         this.accountName = accountName.toUpperCase();
     }
-
-//    public Accumulator(String accountName, String accountDesc,ArrayList<Transaction> transactions) {
-//        this.accountType = "ACCUMULATOR";
-//        this.accountName = accountName.toUpperCase();
-//        this.accountDesc = accountDesc;
-//        this.transactions = transactions;
-//    }
 }
