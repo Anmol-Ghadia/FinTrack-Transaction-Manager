@@ -24,6 +24,7 @@ public class UserTest {
     Account inc2;
     Account lon2;
     Transaction t1;
+    Transaction t2;
 
     @BeforeEach
     public void userTestSetup() {
@@ -38,6 +39,8 @@ public class UserTest {
         lon2 = new Loan("Loan 2", "Lending money to family member");
         t1 = new Transaction(99,acc1,inc1,200,LocalDate.parse("2022-02-03"),
                 "Transaction title", "Transaction description");
+        t2 = new Transaction(100,lon1,exp1,50,LocalDate.parse("2022-02-04"),
+                "Transaction title 2", "Transaction description 2");
     }
 
     @Test
@@ -266,7 +269,7 @@ public class UserTest {
     }
 
     @Test
-    public void userTestToJsonString() {
+    public void userTestToJsonStringAccumulatorIncome() {
         user1.addIncome(inc1);
         user1.addAccumulator(acc1);
         user1.addTransactionComplete(t1);
@@ -291,6 +294,37 @@ public class UserTest {
         expect.put("loan", new JSONArray());
         JSONArray transArray = new JSONArray();
         transArray.put(t1.toJson());
+        expect.put("transaction", transArray);
+
+        assertEquals(expect.toString(4),check);
+    }
+
+    @Test
+    public void userTestToJsonString() {
+        user1.addLoan(lon1);
+        user1.addExpense(exp1);
+        user1.addTransactionComplete(t2);
+        String check = user1.toJsonString();
+
+        JSONObject expect = new JSONObject();
+        JSONArray loanNames = new JSONArray();
+        loanNames.put(lon1.getAccountName());
+        expect.put("loan-names", loanNames);
+        JSONArray expNames = new JSONArray();
+        expNames.put(exp1.getAccountName());
+        expect.put("expense-names", expNames);
+        expect.put("acc-names", new JSONArray());
+        expect.put("income-names", new JSONArray());
+        JSONArray loanArray = new JSONArray();
+        loanArray.put(lon1.toJson());
+        expect.put("loan", loanArray);
+        JSONArray expArray = new JSONArray();
+        expArray.put(exp1.toJson());
+        expect.put("expense", expArray);
+        expect.put("acc", new JSONArray());
+        expect.put("income", new JSONArray());
+        JSONArray transArray = new JSONArray();
+        transArray.put(t2.toJson());
         expect.put("transaction", transArray);
 
         assertEquals(expect.toString(4),check);
