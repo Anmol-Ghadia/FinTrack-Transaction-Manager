@@ -12,6 +12,9 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.fail;
 
+/*
+    Test class for Json Writer
+*/
 public class JsonWriterTest {
     JsonWriter writer;
 

@@ -26,3 +26,4 @@ The motivation for this project comes from the personal experience of managing f
 
 ### Links:
 [GitHub-Source](https://github.students.cs.ubc.ca/CPSC210-2022W-T2/project_y6y5s)
+[Logo Credit](https://www.flaticon.com/free-icons/business-and-finance)
