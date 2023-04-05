@@ -41,6 +41,7 @@ public class User {
         this.loan = addTransactionsToAccounts(this.loan, jsonObject.getJSONArray("loan"));
 
         this.transactionList = jsonToTransactionList(jsonObject.getJSONArray("transaction"));
+        EventLog.getInstance().logEvent(new Event("Loaded stored Data"));
     }
 
     // EFFECTS: returns the accumulator account ArrayList
@@ -255,6 +256,7 @@ public class User {
 
         jsonString.put("transaction", transactionToJson());
 
+        EventLog.getInstance().logEvent(new Event("Saved data to storage"));
         return jsonString.toString(4);
     }
 

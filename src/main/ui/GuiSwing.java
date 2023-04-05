@@ -2,15 +2,20 @@ package ui;
 
 import exceptions.AccountNotFoundException;
 import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
@@ -87,7 +92,7 @@ public class GuiSwing implements Runnable {
     // EFFECTS: Makes the main window of the app
     public void makeFrame() {
         frame = new JFrame("FinTrack");
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.setSize(500, 500);
 
         frame.setLayout(new GridBagLayout());
@@ -104,6 +109,16 @@ public class GuiSwing implements Runnable {
         cons.gridy = 0;
         cons.gridwidth = 2;
         frame.add(rightPanel,cons);
+
+        frame.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                int option = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?");
+                if (option == JOptionPane.YES_OPTION) {
+                    // call your function here
+                    closeWindow();
+                }
+            }
+        });
     }
 
     // EFFECTS: makes the left-hand side panel
@@ -516,8 +531,16 @@ public class GuiSwing implements Runnable {
         optionsPanel.add(loadSaveOutput);
 
         JButton exit = new JButton("Exit");
-        exit.addActionListener(e -> frame.dispose());
+        exit.addActionListener(e -> closeWindow());
         optionsPanel.add(exit);
+    }
+
+    // EFFECTS: Closes the app properly
+    private void closeWindow() {
+        for (Event e : EventLog.getInstance()) {
+            System.out.println(e.getDescription());
+        }
+        frame.dispose();
     }
 
     // EFFECTS: Save the current user data in a file

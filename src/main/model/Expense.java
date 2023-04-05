@@ -15,11 +15,13 @@ public class Expense extends Account {
         this.accountName = accountName.toUpperCase();
         this.accountDesc = accountDesc;
         this.transactions = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("Created Expense Account with name:" + accountName));
     }
 
     // EFFECTS: create a new expense account with given name
     public Expense(String accountName) {
         this.accountType = "EXPENSE";
         this.accountName = accountName.toUpperCase();
+        EventLog.getInstance().logEvent(new Event("Created Expense Account with name:" + accountName));
     }
 }

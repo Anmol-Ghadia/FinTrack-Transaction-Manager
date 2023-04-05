@@ -16,11 +16,13 @@ public class Income extends Account {
         this.accountName = accountName.toUpperCase();
         this.accountDesc = accountDesc;
         this.transactions = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("Created Income Account with name:" + accountName));
     }
 
     // EFFECTS: creates a new income account with given name
     public Income(String accountName) {
         this.accountType = "INCOME";
         this.accountName = accountName.toUpperCase();
+        EventLog.getInstance().logEvent(new Event("Created Income Account with name:" + accountName));
     }
 }

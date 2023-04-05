@@ -17,11 +17,13 @@ public class Loan extends Account {
         this.accountName = accountName.toUpperCase();
         this.accountDesc = accountDesc;
         this.transactions = new ArrayList<>();
+        EventLog.getInstance().logEvent(new Event("Created Loan Account with name:" + accountName));
     }
 
     // EFFECTS: creates a new loan account with given name
     public Loan(String accountName) {
         this.accountType = "LOAN";
         this.accountName = accountName.toUpperCase();
+        EventLog.getInstance().logEvent(new Event("Created Loan Account with name:" + accountName));
     }
 }

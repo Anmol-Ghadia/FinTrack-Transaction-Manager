@@ -76,6 +76,9 @@ public abstract class Account {
     // EFFECTS: Adds a new transaction to the account
     public void addTransaction(Transaction transaction) {
         transactions.add(0, transaction);
+        EventLog.getInstance().logEvent(new Event("Added Transaction with id: "
+                + transaction.getTransactionID() + " to account: " + transaction.getFrom().getAccountName()
+                + " and " + transaction.getTo().getAccountName()));
     }
 
     // EFFECTS: returns the type of account
@@ -96,18 +99,24 @@ public abstract class Account {
     // MODIFIES: this
     // EFFECTS: returns true if successfully removes the transaction, else false
     public boolean deleteTransaction(Transaction t) {
+        EventLog.getInstance().logEvent(new Event("Deleted Transaction with id: "
+                + t.getTransactionID()));
         return transactions.remove(t);
     }
 
     // MODIFIES: this
     // EFFECTS: changes the name of the account to newName
     public void setName(String newName) {
+        EventLog.getInstance().logEvent(new Event("Changed Account name from: " + accountName
+                + " to " + newName));
         accountName = newName.toUpperCase();
     }
 
     // MODIFIES: this
     // EFFECTS: changes the account description to desc
     public void setDesc(String desc) {
+        EventLog.getInstance().logEvent(new Event("Changed Account description from: " + accountDesc
+                + " to " + desc));
         this.accountDesc = desc;
     }
 
