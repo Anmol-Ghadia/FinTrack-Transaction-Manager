@@ -16,13 +16,13 @@ public class Accumulator extends Account {
         this.accountName = accountName.toUpperCase();
         this.accountDesc = accountDesc;
         this.transactions = new ArrayList<>();
-        EventLog.getInstance().logEvent(new Event("Created Accumulator Account with name:" + accountName));
+        EventLog.getInstance().logEvent(new Event("Created Accumulator Account with name: " + this.accountName));
     }
 
     // EFFECTS: Create a new Accumulator type account with given name
     public Accumulator(String accountName) {
         this.accountType = "ACCUMULATOR";
         this.accountName = accountName.toUpperCase();
-        EventLog.getInstance().logEvent(new Event("Created Accumulator Account with name:" + accountName));
+        EventLog.getInstance().logEvent(new Event("Created Accumulator Account with name: " + this.accountName));
     }
 }

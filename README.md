@@ -24,11 +24,19 @@ The motivation for this project comes from the personal experience of managing f
 * As a user, I want to be able to **save** all my accounts and transactions(if I so choose).
 * As a user, I want to be able to **load** all my accounts and transactions(if I so choose).
 
-### Phase 4: Task 2
+### Phase 4: Task 2: Sample Log
 
-`
-
-`
+```
+Created Accumulator Account with name: CASH
+Created Income Account with name: PART-TIME-JOB
+Created Transaction with ID: 0
+Added Transaction with id: 0 to account: CASH and PART-TIME-JOB
+Created Expense Account with name: STATIONARY
+Created Transaction with ID: 1
+Added Transaction with id: 1 to account: CASH and STATIONARY
+Deleted Transaction with id: 1
+Saved data to storage
+```
 
 ### Links:
 [GitHub-Source](https://github.students.cs.ubc.ca/CPSC210-2022W-T2/project_y6y5s)

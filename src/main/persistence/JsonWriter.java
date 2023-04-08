@@ -9,7 +9,7 @@ import java.io.PrintWriter;
     Writer class for Writing User to JSON file
 */
 public class JsonWriter {
-    private String destination;
+    private final String destination;
 
     // MODIFIES: this
     // EFFECTS: creates a new Json writer with given file path.

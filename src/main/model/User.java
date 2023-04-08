@@ -30,6 +30,8 @@ public class User {
     // REQUIRES: Json Object is of correct user specification
     // EFFECTS: Creates a new user as specified by the Json Object supplied
     public User(JSONObject jsonObject) {
+        EventLog.getInstance().logEvent(new Event("Loading user data(please ignore the actions below):\n"
+                + "-----------------------------"));
         this.accumulator = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("acc-names"),"acc");
         this.income = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("income-names"),"income");
         this.expense = jsonToAccountWithoutTransactions(jsonObject.getJSONArray("expense-names"),"expense");
@@ -41,7 +43,8 @@ public class User {
         this.loan = addTransactionsToAccounts(this.loan, jsonObject.getJSONArray("loan"));
 
         this.transactionList = jsonToTransactionList(jsonObject.getJSONArray("transaction"));
-        EventLog.getInstance().logEvent(new Event("Loaded stored Data"));
+        EventLog.getInstance().logEvent(new Event("----------------------------- \n"
+                + "Loaded stored Data(please ignore the actions above)"));
     }
 
     // EFFECTS: returns the accumulator account ArrayList
@@ -110,6 +113,9 @@ public class User {
     // MODIFIES: this
     // EFFECTS: adds transaction to the user's transaction list, and also in appropriate accounts
     public void addTransactionComplete(Transaction t) {
+        EventLog.getInstance().logEvent(new Event("Added Transaction with id: "
+                + t.getTransactionID() + " to account: " + t.getFrom().getAccountName()
+                + " and " + t.getTo().getAccountName()));
         t.getFrom().addTransaction(t);
         t.getTo().addTransaction(t);
         transactionList.add(t);
@@ -142,6 +148,8 @@ public class User {
     // MODIFIES: this
     // EFFECTS: returns true if transaction is removed from user
     public boolean removeTransaction(Transaction t) {
+        EventLog.getInstance().logEvent(new Event("Deleted Transaction with id: "
+                + t.getTransactionID()));
         return transactionList.remove(t);
     }
 
@@ -193,7 +201,7 @@ public class User {
 
     // EFFECTS: returns a new account with given name and type
     private Account jsonToSingleAccountWithoutTransactions(String accName, String type) {
-        Account out = null;
+        Account out;
         switch (type) {
             case "acc":
                 out = new Accumulator(accName);

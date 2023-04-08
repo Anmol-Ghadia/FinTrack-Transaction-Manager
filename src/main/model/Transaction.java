@@ -32,7 +32,7 @@ public class Transaction {
         this.date = date;
         this.title = title;
         this.desc = desc;
-        EventLog.getInstance().logEvent(new Event("Created Transaction with ID:" + transactionID));
+        EventLog.getInstance().logEvent(new Event("Created Transaction with ID: " + transactionID));
     }
 
     // EFFECTS: returns the transaction ID
@@ -89,14 +89,14 @@ public class Transaction {
     // EFFECTS: changes the from<account> of this transaction
     public void setFrom(Account from) {
         this.from = from;
-        EventLog.getInstance().logEvent(new Event("Edited from account of Transaction with ID:" + transactionID));
+        EventLog.getInstance().logEvent(new Event("Edited from account of Transaction with ID: " + transactionID));
     }
 
     // MODIFIES: this
     // EFFECTS: changes the To<account> of this transaction
     public void setTo(Account to) {
         this.to = to;
-        EventLog.getInstance().logEvent(new Event("Edited to account of Transaction with ID:" + transactionID));
+        EventLog.getInstance().logEvent(new Event("Edited to account of Transaction with ID: " + transactionID));
     }
 
     // REQUIRES: Amount > 0
@@ -104,14 +104,14 @@ public class Transaction {
     // EFFECTS: sets the new amount for this transaction
     public void setAmount(int amount) {
         this.amount = amount;
-        EventLog.getInstance().logEvent(new Event("Edited Amount of Transaction with ID:" + transactionID));
+        EventLog.getInstance().logEvent(new Event("Edited Amount of Transaction with ID: " + transactionID));
     }
 
     // MODIFIES: this
     // EFFECTS: sets the new date for this transaction
     public void setDate(LocalDate date) {
         this.date = date;
-        EventLog.getInstance().logEvent(new Event("Edited Date of Transaction with ID:" + transactionID));
+        EventLog.getInstance().logEvent(new Event("Edited Date of Transaction with ID: " + transactionID));
     }
 
     // REQUIRES: title is not empty
@@ -119,14 +119,14 @@ public class Transaction {
     // EFFECTS: sets the new title for this transaction
     public void setTitle(String title) {
         this.title = title;
-        EventLog.getInstance().logEvent(new Event("Edited title of Transaction with ID:" + transactionID));
+        EventLog.getInstance().logEvent(new Event("Edited title of Transaction with ID: " + transactionID));
     }
 
     // MODIFIES: this
     // EFFECTS: sets the new description for this transaction
     public void setDesc(String desc) {
         this.desc = desc;
-        EventLog.getInstance().logEvent(new Event("Edited Description of Transaction with ID:" + transactionID));
+        EventLog.getInstance().logEvent(new Event("Edited Description of Transaction with ID: " + transactionID));
     }
 
     // EFFECTS: returns the transaction as a JSON Object

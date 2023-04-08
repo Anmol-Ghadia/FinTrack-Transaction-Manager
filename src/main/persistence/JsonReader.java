@@ -13,7 +13,7 @@ import java.util.stream.Stream;
     Reader class for reading user from JSON file
 */
 public class JsonReader {
-    private String destination;
+    private final String destination;
 
     // REQUIRES: a valid file path
     // MODIFIES: this
