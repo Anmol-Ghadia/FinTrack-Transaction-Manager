@@ -32,7 +32,7 @@ public class Transaction {
         this.date = date;
         this.title = title;
         this.desc = desc;
-        EventLog.getInstance().logEvent(new Event("Created Transaction with ID: " + transactionID));
+        EventLog.getInstance().logEvent(new Event("Created (X)Transaction with ID: " + transactionID));
     }
 
     // EFFECTS: returns the transaction ID

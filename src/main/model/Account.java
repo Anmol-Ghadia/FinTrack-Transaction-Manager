@@ -102,7 +102,7 @@ public abstract class Account {
     // MODIFIES: this
     // EFFECTS: changes the name of the account to newName
     public void setName(String newName) {
-        EventLog.getInstance().logEvent(new Event("Changed Account name from: " + accountName
+        EventLog.getInstance().logEvent(new Event("Changed (Y)Account name from: " + accountName
                 + " to " + newName));
         accountName = newName.toUpperCase();
     }
@@ -110,7 +110,7 @@ public abstract class Account {
     // MODIFIES: this
     // EFFECTS: changes the account description to desc
     public void setDesc(String desc) {
-        EventLog.getInstance().logEvent(new Event("Changed Account description from: " + accountDesc
+        EventLog.getInstance().logEvent(new Event("Changed (Y)Account description from: " + accountDesc
                 + " to " + desc));
         this.accountDesc = desc;
     }
