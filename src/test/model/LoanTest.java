@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/*
-    Test class for Loan Account
-*/
+/**
+ *   Test class for Loan Account
+ */
 public class LoanTest {
     Account loan1;
 

@@ -9,9 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
 
-/*
-    Reader class for reading user from JSON file
-*/
+/**
+ *   Reader class for reading user from JSON file
+ */
 public class JsonReader {
     private final String destination;
 

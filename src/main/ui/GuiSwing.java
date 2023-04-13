@@ -18,9 +18,9 @@ import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-/*
+/**
  * GUI for FinTrack app
-*/
+ */
 public class GuiSwing implements Runnable {
     private User user;
     private int transactionCount;

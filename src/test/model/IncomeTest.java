@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-/*
-    Test class for Income account
-*/
+/**
+ *   Test class for Income account
+ */
 public class IncomeTest {
     Account inc1;
 

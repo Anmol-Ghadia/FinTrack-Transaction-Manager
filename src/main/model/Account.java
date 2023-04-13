@@ -5,12 +5,12 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-/*
-* A general Account model for more specific accounts
-* (concrete subclasses of this abstract super class)
-*        ( All tests related to this abstract class can be found in the AccumulatorTest which tests )
-*        (     the Accumulator concrete class which is a subclass of this abstract class            )
-*/
+/**
+ * A general Account model for more specific accounts
+ * (concrete subclasses of this abstract super class)
+ *        ( All tests related to this abstract class can be found in the AccumulatorTest which tests )
+ *        (     the Accumulator concrete class which is a subclass of this abstract class            )
+ */
 public abstract class Account {
 
     // Transactions are added from the front(index: 0)

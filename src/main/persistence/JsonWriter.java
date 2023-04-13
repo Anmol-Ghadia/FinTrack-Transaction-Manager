@@ -5,9 +5,9 @@ import model.User;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 
-/*
-    Writer class for Writing User to JSON file
-*/
+/**
+ *   Writer class for Writing User to JSON file
+ */
 public class JsonWriter {
     private final String destination;
 

@@ -13,9 +13,9 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
-/*
-    Console app for financial tracking
-*/
+/**
+ *   Console app for financial tracking
+ */
 public class FinTrack {
     User user;
     private Scanner input;

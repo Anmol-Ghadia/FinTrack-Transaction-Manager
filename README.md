@@ -27,14 +27,14 @@ The motivation for this project comes from the personal experience of managing f
 ### Phase 4: Task 2: Sample Log
 
 ```
-Created Accumulator Account with name: CASH
-Created Income Account with name: PART-TIME-JOB
-Created Transaction with ID: 0
-Added Transaction with id: 0 to account: CASH and PART-TIME-JOB
-Created Expense Account with name: STATIONARY
-Created Transaction with ID: 1
-Added Transaction with id: 1 to account: CASH and STATIONARY
-Deleted Transaction with id: 1
+Created (Y)Accumulator Account with name: CASH
+Created (Y)Income Account with name: PART-TIME-JOB
+Created (X)Transaction with ID: 0
+Added Transaction with id: 0 to account: PART-TIME-JOB and CASH
+Created (Y)Expense Account with name: FOOD
+Created (X)Transaction with ID: 1
+Added Transaction with id: 1 to account: CASH and FOOD
+Deleted Transaction with id: 0
 Saved data to storage
 ```
 

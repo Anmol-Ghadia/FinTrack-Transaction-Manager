@@ -7,10 +7,10 @@ import org.json.JSONObject;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-/*
-    Represents a user, should be instantiated only once. contains different transactions and accounts
-    that a user may need
-*/
+/**
+ *   Represents a user, should be instantiated only once. contains different transactions and accounts
+ *   that a user may need
+ */
 public class User {
     private ArrayList<Account> accumulator;
     private ArrayList<Account> expense;

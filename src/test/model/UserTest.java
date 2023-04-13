@@ -10,9 +10,9 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/*
-    Test class for user
-*/
+/**
+ *   Test class for user
+ */
 public class UserTest {
     User user1;
     Account acc1;

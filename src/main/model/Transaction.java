@@ -4,10 +4,10 @@ import org.json.JSONObject;
 
 import java.time.LocalDate;
 
-/*
+/**
  * Represents a transaction, with important details like date, amount, accounts and more personalized information
  * like title, and description.
-*/
+ */
 public class Transaction {
     private final int transactionID;
     private Account from;
